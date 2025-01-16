@@ -1,0 +1,6 @@
+[enu eng en default]
+
+ZSHXRTC_HUD_OPTIONS = "ZS-HXRTC HUD Options"			;
+ZSHXRTC_HUD_VERSION = "v2025.01.17 | DEV"				;
+ZSHXRTC_DEATH_ZONE_X = "Death zone (Horizontal)"		;
+ZSHXRTC_DEATH_ZONE_Y = "Death zone (Vertical)"			;

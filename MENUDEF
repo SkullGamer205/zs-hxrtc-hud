@@ -1,0 +1,13 @@
+AddOptionMenu "OptionsMenu"
+{
+	StaticText " "
+	Submenu "$ZSHXRTC_HUD_OPTIONS", "ZS_HXRTC_Options"
+}
+
+OptionMenu "ZS_HXRTC_Options"
+{
+	Title "$ZSHXRTC_HUD_OPTIONS"
+	StaticText "$ZSHXRTC_HUD_VERSION", 1
+	Slider "$ZSHXRTC_DEATH_ZONE_X", "hxrtc_death_zone_x", 0, 100, 1
+	Slider "$ZSHXRTC_DEATH_ZONE_Y", "hxrtc_death_zone_y", 0, 100, 1
+}
