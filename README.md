@@ -1,2 +1,3 @@
-# zs-hxrtc-hud
-W.I.P | ZScripted HXRTC HUD 
+# ZScripted HEXERETIC HUD
+Another shitty HUD by me.
+Just ignore... for now.
