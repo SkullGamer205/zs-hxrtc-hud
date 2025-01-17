@@ -1,4 +1,5 @@
-nosave bool hxrtc_show_time		= true;
-nosave bool hxrtc_show_info		= true;
-nosave int  hxrtc_death_zone_x	= 2;
-nosave int  hxrtc_death_zone_y	= 2;
+nosave bool  hxrtc_show_time		= true;
+nosave bool  hxrtc_show_linfo		= true;
+nosave int   hxrtc_death_zone_x		= 2;
+nosave int   hxrtc_death_zone_y		= 2;
+nosave float hxrtc_alpha			= 75;
