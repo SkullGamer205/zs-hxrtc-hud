@@ -1,7 +1,7 @@
 # CREDITS
 
 ## General
-* __Co-Author and Tester__  
+* __Author and Tester__  
 _SkullGamer205_
 * __Original HXRTC HUD__  
 _Hexereticdoom_
