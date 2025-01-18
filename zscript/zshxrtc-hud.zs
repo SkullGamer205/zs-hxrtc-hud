@@ -96,6 +96,11 @@
 			
 			float LInfoBox_x = TimeBox_x;
 			float LinfoBox_y = ((h_HXGENERALFONTS * 5) + 2);
+			
+			float Right_x = (x + TimeBox_x) - (6);
+			int LI_Length = HX_LI_Length.GetInt();
+			float XIndex_Offset = (LI_Length + 1) * (w_HXINDEXFONTS -1); 
+			
 			if (show_time == true)
 			{
 				Draw9Slice((x, y), (TimeBox_x, TimeBox_y), DI_SCREEN_LEFT_TOP, "HXBOX1", alpha);
@@ -106,22 +111,23 @@
 			if (show_linfo == true)
 			{
 				Draw9Slice((x, y), (LInfoBox_x, LinfoBox_y), DI_SCREEN_LEFT_TOP, "HXBOX1", alpha);
-				DrawString(HXGENERALFONTS, "KILLS", (x + w_HXGENERALFONTS, y + h_HXGENERALFONTS), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
-				DrawString(HXGENERALFONTS, level.killed_monsters.."", ((x + (10 * w_HXGENERALFONTS)), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
-				DrawString(HXGENERALFONTS, "-", ((x + (10 * w_HXGENERALFONTS)), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
-				DrawString(HXGENERALFONTS, level.total_monsters.."", ((x + (14 * w_HXGENERALFONTS) ), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
-				y += h_HXGENERALFONTS + 1;
+				y += h_HXGENERALFONTS;
+				DrawString(HXGENERALFONTS, "KILLS", (x + w_HXGENERALFONTS, y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXINDEXFONTS, level.killed_monsters.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
+				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXINDEXFONTS, level.total_monsters.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				
-				DrawString(HXGENERALFONTS, "ITEMS", (x + w_HXGENERALFONTS, y + h_HXGENERALFONTS), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
-				DrawString(HXGENERALFONTS, level.found_items.."", ((x + (10 * w_HXGENERALFONTS)), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
-				DrawString(HXGENERALFONTS, "-", ((x + (10 * w_HXGENERALFONTS)), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
-				DrawString(HXGENERALFONTS, level.total_items.."", ((x + (14 * w_HXGENERALFONTS) ), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
-				y += h_HXGENERALFONTS + 1;
+				y += h_HXINDEXFONTS;
+				DrawString(HXGENERALFONTS, "ITEMS", (x + w_HXGENERALFONTS, y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXINDEXFONTS, level.found_items.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
+				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXINDEXFONTS, level.total_items.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				
-				DrawString(HXGENERALFONTS, "SCRTS", (x + w_HXGENERALFONTS, y + h_HXGENERALFONTS), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
-				DrawString(HXGENERALFONTS, level.found_secrets.."", ((x + (10 * w_HXGENERALFONTS)), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
-				DrawString(HXGENERALFONTS, "-", ((x + (10 * w_HXGENERALFONTS)), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
-				DrawString(HXGENERALFONTS, level.total_secrets.."", ((x + (14 * w_HXGENERALFONTS) ), (y + h_HXGENERALFONTS)), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
+				y += h_HXINDEXFONTS;
+				DrawString(HXGENERALFONTS, "SCRTS", (x + w_HXGENERALFONTS, y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXINDEXFONTS, level.found_secrets.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
+				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXINDEXFONTS, level.total_secrets.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 			}
 		}
 		

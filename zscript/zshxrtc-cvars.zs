@@ -23,7 +23,11 @@ extend class zsHXRTC_HUD
 	// Alpha
 	CVar HUD_alpha;
 	
-	// Death Zone
+	// Changable Values
+	//// Level Info Length
+	CVar HX_LI_Length;
+	
+	//// Death Zone
 	CVar w_deathzone;
 	CVar h_deathzone;	
 	void CacheCvars()
@@ -33,6 +37,8 @@ extend class zsHXRTC_HUD
 		h_HXGENERALFONTS = HXGENERALFONTS.mFont.GetHeight();
 		w_HXGENERALFONTM = HXGENERALFONTM.mFont.GetHeight();
 		h_HXGENERALFONTM = HXGENERALFONTM.mFont.GetHeight();
+		w_HXINDEXFONTS 	 = HXINDEXFONTS.mFont.GetHeight();
+		h_HXINDEXFONTS   = HXINDEXFONTS.mFont.GetHeight();
 		w_HXCONSOLEFONT	 = HXCONSOLEFONT.mFont.GetHeight();
 		h_HXCONSOLEFONT  = HXCONSOLEFONT.mFont.GetHeight();
 	// CValues (From CVARINFO)
@@ -45,8 +51,12 @@ extend class zsHXRTC_HUD
 			HX_ShowTime = CVar.GetCVar('hxrtc_show_time', p);
 		if (!HX_ShowLInfo)
 			HX_ShowLInfo = CVar.GetCVar('hxrtc_show_linfo', p);		
+		if (!HX_LI_Length)
+			HX_LI_Length = CVar.GetCVar('hxrtc_linfo_length', p);		
+			
 		if (!HUD_alpha)
 			HUD_alpha = CVar.GetCVar('hxrtc_alpha', p);
+			
 		if (!w_deathzone)
 			w_deathzone = CVar.GetCVar('hxrtc_death_zone_x', p);
 		if (!h_deathzone)

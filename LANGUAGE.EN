@@ -5,6 +5,7 @@ ZSHXRTC_HUD_VERSION = "v2025.01.18 | DEV"				;
 
 ZSHXRTC_SHOW_TIME 	 = "Show Time"						;
 ZSHXRTC_SHOW_LINFO 	 = "Show Level Info"				;
+ZSHXRTC_LINFO_LENGTH = "Level Info length"				;
 ZSHXRTC_DEATH_ZONE_X = "Death zone (Horizontal)"		;
 ZSHXRTC_DEATH_ZONE_Y = "Death zone (Vertical)"			;
 ZSHXRTC_ALPHA		 = "Alpha"							;
