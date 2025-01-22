@@ -32,7 +32,7 @@
 				{
 					BeginHUD();
 					DrawStats(TicFrac);
-					DrawHPAP(TicFrac);
+					LB_Draw(TicFrac);
 				}
 		}
 		
@@ -81,6 +81,12 @@
 		DrawTexture(images[4], (pos.x + imgSize.x, pos.y + imgSize.y), flags|StatusBarCore.DI_ITEM_LEFT_TOP, alpha, scale: (distHor / imgSize.x, distVert / imgSize.y));
 	}
 		
+	ui int TexSize(String texname)
+	{
+		TextureID tex = TexMan.CheckForTexture(texname);
+		return TexMan.GetSize(tex);
+	}
+		
 		protected virtual void DrawStats (double TicFrac)
 		{
 			CacheCvars();
@@ -89,15 +95,18 @@
 			
 			int x = w_deathzone.GetInt();
 			int y = h_deathzone.GetInt();
+			
+			int Offset = TexSize("HXBOX11");
+			
 			float alpha = HUD_alpha.GetFloat() / 100;
 			
-			float TimeBox_x = (h_HXCONSOLEFONT * 9.625);
-			float TimeBox_y = (h_HXCONSOLEFONT*2.25);
+			float TimeBox_x = ((8 * h_HXCONSOLEFONT) + (2 * Offset));
+			float TimeBox_y = (h_HXCONSOLEFONT + (1.5 * Offset));
 			
 			float LInfoBox_x = TimeBox_x;
-			float LinfoBox_y = ((h_HXGENERALFONTS * 5) + 2);
+			float LinfoBox_y = ((h_HXGENERALFONTS * 3) + (2 * Offset));
 			
-			float Right_x = (x + TimeBox_x) - (6);
+			float Right_x = (x + TimeBox_x) - (Offset);
 			int LI_Length = HX_LI_Length.GetInt();
 			float XIndex_Offset = (LI_Length + 1) * (w_HXINDEXFONTS -1); 
 			
@@ -112,19 +121,19 @@
 			{
 				Draw9Slice((x, y), (LInfoBox_x, LinfoBox_y), DI_SCREEN_LEFT_TOP, "HXBOX1", alpha);
 				y += h_HXGENERALFONTS;
-				DrawString(HXGENERALFONTS, "KILLS", (x + w_HXGENERALFONTS, y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXGENERALFONTS, "KILLS", (x + (Offset - 1), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.killed_monsters.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.total_monsters.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				
 				y += h_HXINDEXFONTS;
-				DrawString(HXGENERALFONTS, "ITEMS", (x + w_HXGENERALFONTS, y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXGENERALFONTS, "ITEMS", (x + (Offset - 1), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.found_items.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.total_items.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				
 				y += h_HXINDEXFONTS;
-				DrawString(HXGENERALFONTS, "SCRTS", (x + w_HXGENERALFONTS, y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
+				DrawString(HXGENERALFONTS, "SCRTS", (x + (Offset - 1), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.found_secrets.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.total_secrets.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
@@ -141,23 +150,60 @@
 			int PHealth = pwm.Health;
 			int PMaxHealth = pwm.GetMaxHealth(true);
 			
+			int Offset = 2;
+			int TexOffset = TexSize("HXBOX11");
+			int LabOffset = (6 * w_HXGENERALFONTM);
+			int ValOffset = (3 * w_HXCONSOLEFONT);
+			int Bar_Width = TexSize("HXHABROK");
+			
 			let ArmorType = pwm.FindInventory("BasicArmor");
 			let PArmor = ArmorType.amount;
 			let PMaxArmor = ArmorType.MaxAmount;
 			
 			// Change 43 to Bar Width and 6 to something...
-			float x_HealthBox = (((6 * w_HXGENERALFONTM)) + (43) + (4 * w_HXCONSOLEFONT) + (6));
-			float y_HealthBox = (3 * w_HXCONSOLEFONT);
+			// float x_HealthBox = (((6 * w_HXGENERALFONTM)) + (43) + (4 * w_HXCONSOLEFONT) + (6));
+			float x_HealthBox = ((2 * TexOffset + Offset) + LabOffset + Bar_Width  + ValOffset);
+			int y_HealthBox = (2 * (TexOffset + (h_HXGENERALFONTM - 1)) + Offset);
+			//float y_HealthBox = (3 * w_HXCONSOLEFONT);
 			
-			Draw9Slice((x, -(y + y_HealthBox)), (x_HealthBox, y_HealthBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha); y += (1.25 * w_HXCONSOLEFONT);
-			DrawString(HXGENERALFONTM, "ARMOUR", ((x + w_HXGENERALFONTM), (-y)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
-			DrawBar("HXHABROK", "HXHABRBG", PArmor, PMaxArmor, ((x + (7 * w_HXGENERALFONTM) + 2), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
-			DrawString(HXCONSOLEFONT, PArmor.."", (((x + (7 * w_HXGENERALFONTM) + 2) + (43) + (3 * w_HXCONSOLEFONT)), -(y + 2)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, Font.CR_GREEN);
+			Draw9Slice((x, -(y + y_HealthBox)), (x_HealthBox, y_HealthBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha); y += (w_HXGENERALFONTM + TexOffset - 1);
+			DrawString(HXGENERALFONTM, "ARMOUR", ((x + TexOffset), (-y)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
+			DrawBar("HXHABROK", "HXHABRBG", PArmor, PMaxArmor, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
+			DrawString(HXCONSOLEFONT, PArmor.."", (((x + (7 * w_HXGENERALFONTM) + Offset) + (Bar_Width) + (3 * w_HXCONSOLEFONT)), -(y + Offset)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, Font.CR_GREEN);
 			
-			y += (w_HXCONSOLEFONT);
-			DrawString(HXGENERALFONTM, "HEALTH", ((x + w_HXGENERALFONTM), (-y)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
-			DrawBar("HXHABROK", "HXHABRBG", PHealth, PMaxHealth, ((x + (7 * w_HXGENERALFONTM) + 2), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
-			DrawString(HXCONSOLEFONT, PHealth.."", (((x + (7 * w_HXGENERALFONTM) + 2) + (43) + (3 * w_HXCONSOLEFONT)), -(y + 2)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, Font.CR_GREEN);
+			y += (w_HXCONSOLEFONT - 1);
+			DrawString(HXGENERALFONTM, "HEALTH", ((x + TexOffset), (-y)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
+			DrawBar("HXHABROK", "HXHABRBG", PHealth, PMaxHealth, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
+			DrawString(HXCONSOLEFONT, PHealth.."", (((x + (7 * w_HXGENERALFONTM) + Offset) + (Bar_Width) + (3 * w_HXCONSOLEFONT)), -(y + Offset)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, Font.CR_GREEN);
 		}
 		
+		// NEED TO REMADE! THIS IS A BULLSHIT!!!
+		protected virtual void DrawMugshot (double TicFrac)
+		{
+			CacheCvars();
+			int x = w_deathzone.GetInt();
+			int y = h_deathzone.GetInt();
+			float alpha = HUD_alpha.GetFloat() / 100;
+			int MugBox = 46;
+		
+			int Offset = 2;
+			int TexOffset = TexSize("HXBOX11");
+			int y_HealthBox = (2 * (TexOffset + (h_HXGENERALFONTM - 1)) + Offset);
+			int y_MugBoxOffset = (y + (y_HealthBox + MugBox));
+			
+			int x_Mugshot = (x + (MugBox / 2));
+			int y_Mugshot = ((y + y_HealthBox) + (MugBox / 2));
+			
+			Draw9Slice( (x, -(y_MugBoxOffset)), (MugBox, MugBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha);
+			DrawTexture(GetMugShot(5), (x_Mugshot, -y_Mugshot), DI_SCREEN_LEFT_BOTTOM | DI_ITEM_CENTER);
+			
+			// NEED TO REMADE! THIS IS A BULLSHIT!!!
+			DrawBar("HXAIRBAR", "", 20, 20, ((x + (TexOffset - Offset)), -(y + y_HealthBox + (TexOffset - Offset))), 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
+		}
+		
+		protected virtual void LB_Draw (double TicFrac)
+		{
+			DrawHPAP(TicFrac);
+			DrawMugshot(TicFrac);
+		}
 	}
