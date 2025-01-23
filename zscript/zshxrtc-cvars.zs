@@ -1,7 +1,35 @@
 extend class zsHXRTC_HUD
 {
-	// Player
+	// General HUD Vars
+	int x;
+	int y;
+	int Offset;
+	int TexOffset;
+	float alpha;
 	
+	// Level Info Vars
+	bool show_time;
+	bool show_linfo;
+	float x_TimeBox;
+	float y_TimeBox;
+	float x_LInfoBox;
+	float y_LInfoBox;
+	float Right_x;
+	int LI_Length;
+	float XIndex_Offset;
+	
+	// Player Stats Vars
+	int LabOffset;
+	int ValOffset;
+	int Bar_Width;
+	
+	int x_HealthBox;
+	int y_HealthBox;
+	// Mughsot Vars
+	int MugBox;
+	int y_MugBoxOffset;
+	int x_Mugshot;
+	int y_Mugshot;
 	
 	// Font Width and Height
 	int w_HXINDEXFONTS;
@@ -30,8 +58,8 @@ extend class zsHXRTC_HUD
 	//// Death Zone
 	CVar w_deathzone;
 	CVar h_deathzone;	
-	void CacheCvars()
-	{
+	ui void CacheCvars()
+	{	
 	// Font width & height values.
 		w_HXGENERALFONTS = HXGENERALFONTS.mFont.GetHeight();
 		h_HXGENERALFONTS = HXGENERALFONTS.mFont.GetHeight();
@@ -61,6 +89,41 @@ extend class zsHXRTC_HUD
 			w_deathzone = CVar.GetCVar('hxrtc_death_zone_x', p);
 		if (!h_deathzone)
 			h_deathzone = CVar.GetCVar('hxrtc_death_zone_y', p);
+	
+	// General HUD Vars
+		x = w_deathzone.GetInt();
+		y = h_deathzone.GetInt();
+		
+		Offset = 2;
+		TexOffset = TexSize("HXBOX11");
+		alpha = HUD_alpha.GetFloat() / 100;
+		
+	// Level Info Vars
+		show_time  = HX_ShowTime.GetBool();
+		show_linfo = HX_ShowLinfo.GetBool();
+		
+		x_TimeBox = ((8 * h_HXCONSOLEFONT) + (2 * TexOffset));
+		y_TimeBox = (h_HXCONSOLEFONT + (1.5 * TexOffset));
+		
+		x_LInfoBox = x_TimeBox;
+		y_LInfoBox = ((h_HXGENERALFONTS * 3) + (2 * TexOffset));
 			
+		Right_x = (x + x_TimeBox) - (TexOffset);
+		LI_Length = HX_LI_Length.GetInt();
+		XIndex_Offset = (LI_Length + 1) * (w_HXINDEXFONTS -1); 
+		
+	// Player Stats Vars		
+		LabOffset = (6 * w_HXGENERALFONTM);
+		ValOffset = (3 * w_HXCONSOLEFONT);
+		Bar_Width = TexSize("HXHABROK");
+		x_HealthBox = ((2 * TexOffset + Offset) + LabOffset + Bar_Width  + ValOffset);
+		y_HealthBox = (2 * (TexOffset + (h_HXGENERALFONTM - 1)) + Offset);
+	
+	// Mugshot Vars
+		MugBox = 46;
+		y_MugBoxOffset = (y + (y_HealthBox + MugBox));
+		x_Mugshot = (x + (MugBox / 2));
+		y_Mugshot = ((y + y_HealthBox) + (MugBox / 2));
 	}
+	
 }
