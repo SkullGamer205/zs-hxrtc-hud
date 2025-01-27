@@ -50,4 +50,13 @@ extend class zsHXRTC_HUD
 		TextureID tex = TexMan.CheckForTexture(texname);
 		return TexMan.GetSize(tex);
 	}
+	
+	ui Vector2 Scale2Box(TextureID tex, double BoxSize)
+	{
+		Vector2 size = TexMan.GetScaledSize(tex);
+		double LongSide = max(size.x, size.y);
+		double s = BoxSize / LongSide;
+		return (s,s);
+	}
+
 }

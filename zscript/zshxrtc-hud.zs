@@ -32,7 +32,10 @@
 				{
 					BeginHUD();
 					DrawStats(TicFrac);
-					LB_Draw(TicFrac);
+					DrawHPAP(TicFrac);
+					DrawMugshot(TicFrac);
+					DrawBerserk(TicFrac);
+					DrawArmor(TicFrac);
 				}
 		}
 		
@@ -75,8 +78,8 @@
 			
 			int PHealth = pwm.Health;
 			int PMaxHealth = pwm.GetMaxHealth(true);
-						
 			let ArmorType = pwm.FindInventory("BasicArmor");
+						
 			let PArmor = ArmorType.amount;
 			let PMaxArmor = ArmorType.MaxAmount;
 						
@@ -104,9 +107,21 @@
 			DrawBar("HXAIRBAR", "", PAirSupply, PAirSupplyMax, ((x + (TexOffset - Offset)), -(y + y_HealthBox + (TexOffset - Offset))), 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
 		}
 		
-		protected virtual void LB_Draw (double TicFrac)
+		protected virtual void DrawBerserk (double TicFrac)
 		{
-			DrawHPAP(TicFrac);
-			DrawMugshot(TicFrac);
+			Draw9Slice((x_BerserkBoxOffset, -y_SmallBoxOffset), (SmallBox, SmallBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+		}
+		
+		protected virtual void DrawArmor (double TicFrac)
+		{
+			let ArmorType = pwm.FindInventory("BasicArmor");
+			let PArmor = ArmorType.amount;
+			let ArmorIcon = ArmorType.icon;
+			double ArmorIconSize = (SmallBox / 1.5);
+			Draw9Slice((x_ArmorBoxOffset, -y_SmallBoxOffset), (SmallBox, SmallBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+			if (PArmor != 0)
+			{
+				DrawTexture(ArmorIcon, (x_ArmorBoxOffset + (SmallBox / 2), -(y_SmallBoxOffset - (SmallBox / 2))), DI_ITEM_CENTER, scale:Scale2Box(ArmorIcon, ArmorIconSize));
+			}
 		}
 	}

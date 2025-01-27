@@ -31,6 +31,12 @@ extend class zsHXRTC_HUD
 	int x_Mugshot;
 	int y_Mugshot;
 	
+	// Player Stats & Inventory Vars
+	int SmallBox;
+	int x_BerserkBoxOffset;
+	int x_ArmorBoxOffset;
+	int y_SmallBoxOffset;
+	
 	// Font Width and Height
 	int w_HXINDEXFONTS;
 	int h_HXINDEXFONTS;
@@ -124,6 +130,11 @@ extend class zsHXRTC_HUD
 		y_MugBoxOffset = (y + (y_HealthBox + MugBox));
 		x_Mugshot = (x + (MugBox / 2));
 		y_Mugshot = ((y + y_HealthBox) + (MugBox / 2));
+	// Player Stats & Inventory Vars
+		SmallBox = 24;
+		x_BerserkBoxOffset = (x + MugBox);
+		x_ArmorBoxOffset = (x_BerserkBoxOffset + SmallBox);
+		y_SmallBoxOffset = (y + (y_HealthBox + SmallBox));
 	}
 	
 }
