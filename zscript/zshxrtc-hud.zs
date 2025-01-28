@@ -109,7 +109,9 @@
 		
 		protected virtual void DrawBerserk (double TicFrac)
 		{
+			let berserk = pwm.FindInventory("PowerStrength");
 			Draw9Slice((x_BerserkBoxOffset, -y_SmallBoxOffset), (SmallBox, SmallBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+			DrawImage(berserk? "HXBERSRK" : "HXHEALTH", ((x_BerserkBoxOffset + (SmallBox / 2)) , -(y_SmallBoxOffset - (SmallBox / 2))), DI_ITEM_CENTER);
 		}
 		
 		protected virtual void DrawArmor (double TicFrac)
