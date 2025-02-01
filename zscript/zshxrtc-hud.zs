@@ -36,6 +36,9 @@
 					DrawMugshot(TicFrac);
 					DrawBerserk(TicFrac);
 					DrawArmor(TicFrac);
+					DrawArmorPercent(TicFrac);
+					DrawAllAmmoBox(TicFrac);
+					DrawAmmoBox(TicFrac);
 				}
 		}
 		
@@ -77,63 +80,42 @@
 			{
 				Draw9Slice((x, y), (x_LInfoBox, y_LInfoBox), DI_SCREEN_LEFT_TOP, "HXBOX1", alpha);
 				y += h_HXGENERALFONTS; DrawBGNums(y);
-				DrawLetters4Stats("KILLS    :", "KILLS", "KI:", "");
+				DrawLetters4Stats("KILLS:", "KILLS", "KI:", "");
 				DrawString(HXINDEXFONTS, level.killed_monsters.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.total_monsters.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				
 				y += h_HXINDEXFONTS; DrawBGNums(y);
-				DrawLetters4Stats("IMEMS    :", "ITEMS", "IT:", "");
+				DrawLetters4Stats("ITEMS:", "ITEMS", "IT:", "");
 				DrawString(HXINDEXFONTS, level.found_items.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.total_items.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				
 				y += h_HXINDEXFONTS; DrawBGNums(y);
-				DrawLetters4Stats("SECRETS:", "SCRTS", "SC:", "");
+				DrawLetters4Stats("SECRETS:", "SCRTS", "SC:w_HXSTATUSFONT", "");
 				DrawString(HXINDEXFONTS, level.found_secrets.."", ((Right_x - (XIndex_Offset)), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 				DrawString(HXINDEXFONTS, "-", (Right_x - (XIndex_Offset), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT);
 				DrawString(HXINDEXFONTS, level.total_secrets.."", ((Right_x), y), DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT);
 			}
 		}
 		
-		protected int ColorNum(int num1, int num2)
-		{
-			int col;
-			if (num1 > num2 * 1)
-				col = Font.CR_Blue;
-			else if (num1 >= num2 * 0.75)
-				col = Font.CR_Green;
-			else if (num1 >= num2 * 0.5)
-				col = Font.CR_Yellow;
-			else if (num1 >= num2 * 0.25)
-				col = Font.CR_Orange;
-			else
-				col = Font.CR_Red;
-			return col;
-		}
-		
 		protected virtual void DrawHPAP (double TicFrac)
 		{
 			CacheCvars();
+			int colorhealth = ColorNum(PHealth, HX_PMaxHealth);
+			int colorarmor = ColorNum(PArmor, HX_PMaxArmor);
 			
-			int PHealth = pwm.Health;
-			int PMaxHealth = pwm.GetMaxHealth(true);
-			int colorhealth = ColorNum(PHealth, PMaxHealth);
-			let ArmorType = pwm.FindInventory("BasicArmor");
-						
-			let PArmor = ArmorType.amount;
-			let PMaxArmor = ArmorType.MaxAmount;
-			int colorarmor = ColorNum(PArmor, PMaxArmor);
-						
 			Draw9Slice((x, -(y + y_HealthBox)), (x_HealthBox, y_HealthBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha); y += (w_HXGENERALFONTM + TexOffset - 1);
 			DrawString(HXGENERALFONTM, "ARMOUR", ((x + TexOffset), (-y)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
-			DrawBar("HXHABROK", "HXHABRBG", PArmor, PMaxArmor, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
+			DrawBar("HXHABROK", "HXHABRBG", PArmor, HX_PMaxArmor, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
+			DrawBar("HXHEBROV", "", PArmorOverMax, PMaxArmorOverMax, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);		
 			DrawString(HXCONSOLEFONT, "888", (((x + (7 * w_HXGENERALFONTM) + Offset) + (Bar_Width) + (3 * w_HXCONSOLEFONT)), -(y + Offset)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
 			DrawString(HXCONSOLEFONT, PArmor.."", (((x + (7 * w_HXGENERALFONTM) + Offset) + (Bar_Width) + (3 * w_HXCONSOLEFONT)), -(y + Offset)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, colorarmor);
 			
 			y += (w_HXCONSOLEFONT - 1);
 			DrawString(HXGENERALFONTM, "HEALTH", ((x + TexOffset), (-y)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
-			DrawBar("HXHABROK", "HXHABRBG", PHealth, PMaxHealth, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
+			DrawBar("HXHABROK", "HXHABRBG", PHealth, HX_PMaxHealth, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
+			DrawBar("HXHEBROV", "", PHealthOverMax, PMaxHealthOverMax, ((x + (6 * w_HXGENERALFONTM) + TexOffset + Offset), -(y - h_HXGENERALFONTM + 1)), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
 			DrawString(HXCONSOLEFONT, "888", (((x + (7 * w_HXGENERALFONTM) + Offset) + (Bar_Width) + (3 * w_HXCONSOLEFONT)), -(y + Offset)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, Font.CR_BLACK);
 			DrawString(HXCONSOLEFONT, PHealth.."", (((x + (7 * w_HXGENERALFONTM) + Offset) + (Bar_Width) + (3 * w_HXCONSOLEFONT)), -(y + Offset)), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, colorhealth);
 		}
@@ -142,8 +124,6 @@
 		protected virtual void DrawMugshot (double TicFrac)
 		{
 			CacheCvars();			
-			int PAirSupply = CPlayer.air_finished - level.maptime;
-			int PAirSupplyMax = level.airSupply;
 			Draw9Slice( (x, -(y_MugBoxOffset)), (MugBox, MugBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha);
 			DrawTexture(GetMugShot(5), (x_Mugshot, -y_Mugshot), DI_SCREEN_LEFT_BOTTOM | DI_ITEM_CENTER);
 			
@@ -160,8 +140,8 @@
 		
 		protected virtual void DrawArmor (double TicFrac)
 		{
-			let ArmorType = pwm.FindInventory("BasicArmor");
-			let PArmor = ArmorType.amount;
+			CacheCvars();
+			let ArmorType = pwm.FindInventory("BasicArmor");	
 			let ArmorIcon = ArmorType.icon;
 			double ArmorIconSize = (SmallBox / 1.5);
 			Draw9Slice((x_ArmorBoxOffset, -y_SmallBoxOffset), (SmallBox, SmallBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
@@ -169,5 +149,36 @@
 			{
 				DrawTexture(ArmorIcon, (x_ArmorBoxOffset + (SmallBox / 2), -(y_SmallBoxOffset - (SmallBox / 2))), DI_ITEM_CENTER, scale:Scale2Box(ArmorIcon, ArmorIconSize));
 			}
+		}
+		
+		protected virtual void DrawArmorPercent (double TicFrac)
+		{
+			Draw9Slice((x_ArmorBoxOffset, -(y_SmallBoxOffset + h_ArmPercBox)), (SmallBox, h_ArmPercBox), DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+			int col = Font.CR_Gray;
+			int align = DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT;
+			int RightAlign = (x_ArmorBoxOffset + SmallBox - TexOffset2);
+			int RightAlign2 = (RightAlign - w_HXGENERALFONTS - Offset);
+			int y_ArmPercBoxTxT = (-(y_SmallBoxOffset + h_ArmPercBox - TexOffset2));
+			DrawString(HXGENERALFONTS, "8", (RightAlign , y_ArmPercBoxTxT), align, col);
+			DrawString(HXGENERALFONTS, "888", (RightAlign2 , y_ArmPercBoxTxT), align, col);
+			if (PArmor > 0)
+			{
+				DrawString(HXGENERALFONTS, "%", (RightAlign , y_ArmPercBoxTxT), align);
+				DrawString(HXGENERALFONTS, PArmorPercent.."", (RightAlign2 , y_ArmPercBoxTxT), align);
+			}
+		}
+		
+		protected virtual void DrawAllAmmoBox (double TicFrac)
+		{
+			Draw9Slice((-(x + w_AllAmmoBox), -(y + h_AllAmmoBox)), (w_AllAmmoBox, h_AllAmmoBox), DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+		}
+		
+		protected virtual void DrawAmmoBox (double TicFrac)
+		{
+			int col = Font.CR_Gray;
+			int align = DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT;
+			Draw9Slice((-(x + w_AllAmmoBox + w_AmmoBox), -(y + h_AllAmmoBox)), (w_AmmoBox, h_AmmoBox), DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+			DrawString(HXSTATUSFONT, "8888", (-(x + w_AllAmmoBox + TexOffset - 1), -(y + h_AllAmmoBox - TexOffset + 2)), align, col);
+			DrawString(HXSTATUSFONT, PAmmo1.."", (-(x + w_AllAmmoBox + TexOffset - 1), -(y + h_AllAmmoBox - TexOffset + 2)), align);
 		}
 	}

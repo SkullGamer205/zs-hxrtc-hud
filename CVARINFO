@@ -4,3 +4,7 @@ nosave int	 hxrtc_linfo_length		= 4;
 nosave int   hxrtc_death_zone_x		= 2;
 nosave int   hxrtc_death_zone_y		= 2;
 nosave float hxrtc_alpha			= 75;
+nosave int 	 hxrtc_max_hp			= 0;
+nosave int 	 hxrtc_overmax_hp		= 0;
+nosave int 	 hxrtc_max_ap			= 1;
+nosave int 	 hxrtc_overmax_ap		= 2;

@@ -1,7 +1,43 @@
-AddOptionMenu "OptionsMenu"
+AddOptionMenu "HUDOptions"
 {
 	StaticText " "
 	Submenu "$ZSHXRTC_HUD_OPTIONS", "ZS_HXRTC_Options"
+}
+
+OptionValue "ZS_HXRTC_MaxHP"
+{
+	0, "$ZSHXRTC_POSSIBLE_MAX"
+	1, "$ZSHXRTC_100_MAX"
+	2, "$ZSHXRTC_200_MAX"
+	3, "$ZSHXRTC_999_MAX"
+	4, "$ZSHXRTC_9999_MAX"
+}
+
+OptionValue "ZS_HXRTC_OverMaxHP"
+{
+	0, "$ZSHXRTC_POSSIBLE_MAX"
+	1, "$ZSHXRTC_100_MAX"
+	2, "$ZSHXRTC_200_MAX"
+	3, "$ZSHXRTC_999_MAX"
+	4, "$ZSHXRTC_9999_MAX"
+}
+
+OptionValue "ZS_HXRTC_MaxAP"
+{
+	0, "$ZSHXRTC_POSSIBLE_MAX"
+	1, "$ZSHXRTC_100_MAX"
+	2, "$ZSHXRTC_200_MAX"
+	3, "$ZSHXRTC_999_MAX"
+	4, "$ZSHXRTC_9999_MAX"
+}
+
+OptionValue "ZS_HXRTC_OverMaxAP"
+{
+	0, "$ZSHXRTC_POSSIBLE_MAX"
+	1, "$ZSHXRTC_100_MAX"
+	2, "$ZSHXRTC_200_MAX"
+	3, "$ZSHXRTC_999_MAX"
+	4, "$ZSHXRTC_9999_MAX"
 }
 
 OptionMenu "ZS_HXRTC_Options"
@@ -9,10 +45,23 @@ OptionMenu "ZS_HXRTC_Options"
 	Title "$ZSHXRTC_HUD_OPTIONS"
 	StaticText "$ZSHXRTC_HUD_VERSION", 1
 	StaticText ""
-	Option "$ZSHXRTC_SHOW_TIME", "hxrtc_show_time", "OnOff"
-	Option "$ZSHXRTC_SHOW_LINFO", "hxrtc_show_linfo", "OnOff"
-	Slider "$ZSHXRTC_LINFO_LENGTH", "hxrtc_linfo_length", 3, 6, 1
+	StaticText "$ZSHXRTC_HUD_GENERAL_OPTIONS", 3
+	StaticText ""
 	Slider "$ZSHXRTC_ALPHA", "hxrtc_alpha", 0, 100, 0.1
 	Slider "$ZSHXRTC_DEATH_ZONE_X", "hxrtc_death_zone_x", 0, 128, 1
 	Slider "$ZSHXRTC_DEATH_ZONE_Y", "hxrtc_death_zone_y", 0, 128, 1
+	StaticText ""
+	StaticText "$ZSHXRTC_HUD_LINFO_OPTIONS", 3
+	StaticText ""
+	Option "$ZSHXRTC_SHOW_TIME", "hxrtc_show_time", "OnOff"
+	Option "$ZSHXRTC_SHOW_LINFO", "hxrtc_show_linfo", "OnOff"
+	Slider "$ZSHXRTC_LINFO_LENGTH", "hxrtc_linfo_length", 3, 6, 1
+	StaticText ""
+	StaticText "$ZSHXRTC_HUD_HPAP_OPTIONS", 3
+	StaticText ""
+	StaticText "$ZSHXRTC_MAX_VALS"
+	Option "$ZSHXRTC_MAXHP", "hxrtc_max_hp", "ZS_HXRTC_MaxHP"
+	Option "$ZSHXRTC_OVERMAXHP", "hxrtc_overmax_hp",  "ZS_HXRTC_OverMaxHP"
+	Option "$ZSHXRTC_MAXAP", "hxrtc_max_ap",  "ZS_HXRTC_MaxAP"
+	Option "$ZSHXRTC_OVERMAXAP", "hxrtc_overmax_ap", "ZS_HXRTC_OverMaxAP"
 }

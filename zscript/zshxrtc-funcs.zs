@@ -45,6 +45,22 @@ extend class zsHXRTC_HUD
 		DrawTexture(images[4], (pos.x + imgSize.x, pos.y + imgSize.y), flags|StatusBarCore.DI_ITEM_LEFT_TOP, alpha, scale: (distHor / imgSize.x, distVert / imgSize.y));
 	}
 		
+	ui int ColorNum(int num1, int num2)
+	{
+		int col;
+		if (num1 > num2 * 1)
+			col = Font.CR_Blue;
+		else if (num1 >= num2 * 0.75)
+			col = Font.CR_Green;
+		else if (num1 >= num2 * 0.5)
+			col = Font.CR_Yellow;
+		else if (num1 >= num2 * 0.25)
+			col = Font.CR_Orange;
+		else
+			col = Font.CR_Red;
+		return col;
+	}
+		
 	ui int TexSize(String texname)
 	{
 		TextureID tex = TexMan.CheckForTexture(texname);
