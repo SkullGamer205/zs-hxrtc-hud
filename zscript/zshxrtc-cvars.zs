@@ -1,74 +1,56 @@
 extend class zsHXRTC_HUD
 {
 	// General HUD Vars
-	int x;
-	int y;
-	int Offset;
-	int TexOffset;
-	int TexOffset2;
+	int x, y, Offset, TexOffset, TexOffset2;
 	float alpha;
 	
 	// Level Info Vars
-	bool show_time;
-	bool show_linfo;
-	float x_TimeBox;
-	float y_TimeBox;
-	float x_LInfoBox;
-	float y_LInfoBox;
+	bool show_time, show_linfo;
+	float x_TimeBox, y_TimeBox;
+	float x_LInfoBox,  y_LInfoBox;
 	float Right_x;
 	int LI_Length;
 	float XIndex_Offset;
 	
 	// Player Stats Vars
-	int LabOffset;
-	int ValOffset;
+	int LabOffset, ValOffset;
 	int Bar_Width;
 	
-	int x_HealthBox;
-	int y_HealthBox;
+	float x_HealthBox, y_HealthBox;
 	// Mughsot Vars
 	int MugBox;
 	int y_MugBoxOffset;
-	int x_Mugshot;
-	int y_Mugshot;
+	float x_Mugshot, y_Mugshot;
 	
 	// Player Stats & Inventory Vars
-	int PHealth;
-	int PMaxHealth;
-	int PHealthOverMax;
-	int PMaxHealthOverMax;
+	int PHealth,  PMaxHealth;
+	int PHealthOverMax, PMaxHealthOverMax;
 	
-	int PArmor;
-	int PMaxArmor;
+	int PArmor, PMaxArmor;
 	int PArmorPercent;
-	int PArmorOverMax;
-	int PMaxArmorOverMax;
+	int PArmorOverMax, PMaxArmorOverMax;
 	
-	int PAirSupply;
-	int PAirSupplyMax;
+	int PAirSupply, PAirSupplyMax;
 	
-	int HX_PMaxHealth;
-	int HX_POverMaxHealth;	
-	int HX_PMaxArmor;
-	int HX_POverMaxArmor;	
+	int HX_PMaxHealth, HX_POverMaxHealth;	
+	int HX_PMaxArmor, HX_POverMaxArmor;	
 	
 	int SmallBox;
-	int x_BerserkBoxOffset;
-	int x_ArmorBoxOffset;
-	int y_SmallBoxOffset;
-	int h_ArmPercBox;
+	float x_BerserkBoxOffset;
+	float x_ArmorBoxOffset, y_SmallBoxOffset;
+	float h_ArmPercBox;
 	
 	// AmmoBoxes
-	int w_AllAmmoBox;
-	int h_AllAmmoBox;
+	float w_AllAmmoBox, h_AllAmmoBox;
 	
-	int w_AmmoBox;
-	int h_AmmoBox;
-	
+	int Size_AmmoBox, Size_Ammo1Box, Size_Ammo2Box;
+	float w_AmmoBox, h_AmmoBox;
+	float w_Ammo1Box, h_Ammo1Box;
+	float w_Ammo2Box, h_Ammo2Box;
 	// Ammo
-	int PAmmo1;
-	int PAmmo2;
-	
+	Ammo PAmmo1, PAmmo2;
+	int PAmmo1Amt, PAmmo2Amt;
+		
 	// Font Width and Height
 	int w_HXINDEXFONTS;
 	int h_HXINDEXFONTS;
@@ -269,14 +251,7 @@ extend class zsHXRTC_HUD
 	// AmmoBox
 		w_AllAmmoBox = 76;
 		h_AllAmmoBox = 31;
-		w_AmmoBox = (3 * w_HXSTATUSFONT + (2 * TexOffset));
-		h_AmmoBox = h_AllAmmoBox;
-		
 	// Ammo
-		let PWeapon = p.ReadyWeapon;
-		PAmmo1 = PWeapon.Ammo1 ? PWeapon.Ammo1.Amount : 0;
-		PAmmo2 = PWeapon.Ammo2 ? PWeapon.Ammo2.Amount : 0;
-		
 	}
 	
 }

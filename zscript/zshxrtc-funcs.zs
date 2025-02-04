@@ -45,19 +45,21 @@ extend class zsHXRTC_HUD
 		DrawTexture(images[4], (pos.x + imgSize.x, pos.y + imgSize.y), flags|StatusBarCore.DI_ITEM_LEFT_TOP, alpha, scale: (distHor / imgSize.x, distVert / imgSize.y));
 	}
 		
-	ui int ColorNum(int num1, int num2)
+	ui int ColorNum(int num1, int num2, int col1 = Font.CR_UNTRANSLATED, int col2 = Font.CR_UNTRANSLATED, int col3 = Font.CR_UNTRANSLATED, int col4 = Font.CR_UNTRANSLATED, int col5 = Font.CR_UNTRANSLATED , int col6 = Font.CR_UNTRANSLATED)
 	{
 		int col;
 		if (num1 > num2 * 1)
-			col = Font.CR_Blue;
+			col = col6;
+		else if (num1 == num2)
+			col = col5;
 		else if (num1 >= num2 * 0.75)
-			col = Font.CR_Green;
+			col = col4;
 		else if (num1 >= num2 * 0.5)
-			col = Font.CR_Yellow;
+			col = col3;
 		else if (num1 >= num2 * 0.25)
-			col = Font.CR_Orange;
+			col = col2;
 		else
-			col = Font.CR_Red;
+			col = col1;
 		return col;
 	}
 		
@@ -65,6 +67,20 @@ extend class zsHXRTC_HUD
 	{
 		TextureID tex = TexMan.CheckForTexture(texname);
 		return TexMan.GetSize(tex);
+	}
+	
+	ui int AmmoBoxSize(int a)
+	{
+		int b;
+		if (a < 10)
+			b = 1;
+		else if (a < 100)
+			b = 2;
+		else if (a < 1000)
+			b = 3;
+		else
+			b = 4;
+		return b;
 	}
 	
 	ui Vector2 Scale2Box(TextureID tex, double BoxSize)

@@ -1,7 +1,7 @@
 [enu eng en default]
 
 ZSHXRTC_HUD_OPTIONS = "ZS-HXRTC HUD Options"			;
-ZSHXRTC_HUD_VERSION = "v2025.02.01 | DEV"				;
+ZSHXRTC_HUD_VERSION = "v2025.02.04 | DEV"				;
 
 ZSHXRTC_HUD_GENERAL_OPTIONS = "- - - - - General Options - - - - -";
 ZSHXRTC_HUD_LINFO_OPTIONS = "- - - - - Level Info Module - - - - -";
