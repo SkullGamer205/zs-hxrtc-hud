@@ -16,7 +16,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 		HXSTATUSFONT = HUDFont.Create("HXSTATUSFONT");
 		HXGENERALFONTS = HUDFont.Create("HXGENERALFONTS");
 		HXGENERALFONTM = HUDFont.Create("HXGENERALFONTM");
-		HXCONSOLEFONT  = HUDFont.Create("ConsoleFont");
+		HXCONSOLEFONT  = HUDFont.Create("consolefont");
 	}
 	
 	override void Draw (int state, double TicFrac)
@@ -33,6 +33,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 			DrawHPAP(TicFrac);
 			DrawMugshot(TicFrac);
 			DrawAmmoInv(TicFrac);
+			DrawAmmoCur(TicFrac);
 		}
 	}
 	
@@ -117,4 +118,9 @@ Class zsHXRTC_HUD : BaseStatusBar
 			}
 		}
 	}
+	
+	protected virtual void DrawAmmoCur (double TicFrac)
+	{
+	}
+	
 }
