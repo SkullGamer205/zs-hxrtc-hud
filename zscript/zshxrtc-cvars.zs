@@ -46,6 +46,24 @@ extend class zsHXRTC_HUD
 	// Player Stats & Inventory Vars
 	int PHealth,  PMaxHealth;
 	int PArmor, PMaxArmor, PArmorPercent;
+	int PAirSupply, PAirSupplyMax;
+
+	int BarWidth;
+	int HealthStringID;
+	int x_NamePos, y_NamePos, x_BarPos, y_BarPos, x_ValuePos, y_ValuePos;
+	float x_HealthBox, y_HealthBox;
+	float w_HealthBox, h_HealthBox;
+	Vector2 HealthBoxPos;
+	Vector2 HealthBoxSize;
+	Vector2 HealthNamePos;
+	Vector2 HealthBarPos;
+	Vector2 HealthValuePos;
+	
+	// Mugshot	
+	int SmallBox, MugBox;
+	float x_MugBox, y_MugBox;
+	float x_Mugshot, y_Mugshot;
+	Vector2 MugPos, MugSize, MugPos2;
 	
 	// Ammo
 	Array<Ammo> ownedAmmo;
@@ -110,30 +128,45 @@ extend class zsHXRTC_HUD
 		x_TimeBox = x;	
 		TimeBoxPos = (x_TimeBox, y_TimeBox);
 		TimeBoxSize = (w_TimeBox, h_TimeBox);
-		
 		TimePos = (x_TimeBox + (w_TimeBox / 2), y_TimeBox + (h_TimeBox / 2) - (FontGetWidth(TimeFont) / 2));
-		
 		
 		x_LinfoBox = x_TimeBox;
 		y_LinfoBox = y_TimeBox + h_TimeBox;
-		w_LinfoBox = w_TimeBox; h_LinfoBox = 6 * FontGetWidth(HXGENERALFONTS);
+		w_LinfoBox = w_TimeBox; h_LinfoBox = ((2 * TexBox1) + (3 * FontGetWidth(HXGENERALFONTS)) + 1);
 		LinfoBoxPos = (x_LinfoBox, y_LinfoBox);
 		LinfoBoxSize = (w_LinfoBox, h_LinfoBox);
 		
 		// HP AP Vars
 		PHealth = pwm.Health;
 		PMaxHealth = pwm.GetMaxHealth(true);
-		
 		let ArmorType = pwm.FindInventory("BasicArmor", true);	
 		PArmor = ArmorType.amount;
 		PMaxArmor = ArmorType.MaxAmount;
 		PArmorPercent = basicarmor(ArmorType).SavePercent * 100;
 		
+		BarWidth = TexSize("HXHABROK");
+		w_HealthBox = ((6 * (FontGetWidth(HXGENERALFONTM) + 1) + 2) + BarWidth + (3 * (FontGetWidth(HXGENERALFONTS) + 1)) + (2 * TexBox1));
+		h_HealthBox = (2 * TexBox1 + (2 * FontGetWidth(HXGENERALFONTM)) + 1);
+		x_HealthBox = x; y_HealthBox = -(y + h_HealthBox);
+		HealthBoxPos = (x_HealthBox, y_HealthBox);
+		HealthBoxSize = (w_HealthBox, h_HealthBox);
+		
+		// Mugshot
+		SmallBox = 24;
+		MugBox = 46;
+		x_MugBox = x_HealthBox;
+		y_MugBox = y_HealthBox - mugBox;
+		MugPos = (x_MugBox, y_MugBox);
+		MugSize = (MugBox, MugBox);
+		
+		x_Mugshot = x_MugBox + (MugBox / 2);
+		y_Mugshot = y_MugBox + (mugBox / 2);
+		MugPos2 = (x_Mugshot, y_Mugshot);
 		// All Ammo
 		
 		x_AllAmmoBox = -(x + w_AllAmmoBox); y_AllAmmoBox = -(y + h_AllAmmoBox);
-		x_AllAmmoBoxLabel = -(x + TexSize("HXBOX11")); y_AllAmmoBoxLabel = -(y + TexSize("HXBOX11")); 
-		w_AllAmmoBox = (FontGetWidth(HXGENERALFONTS) + 1) * 10; h_AllAmmoBox = (FontGetWidth(HXGENERALFONTS) + 1) * (ownedAmmo.Size() + 2);
+		x_AllAmmoBoxLabel = -(x + TexBox1); y_AllAmmoBoxLabel = -(y + TexBox1); 
+		w_AllAmmoBox = (FontGetWidth(HXGENERALFONTS) + 1) * 8; h_AllAmmoBox = ((FontGetWidth(HXGENERALFONTS) + 1) * (ownedAmmo.Size() + 1) + TexBox1);
 		AllAmmoBoxSize = (w_AllAmmoBox, h_AllAmmoBox);
 		AllAmmoBoxPos = (x_AllAmmoBox, y_AllAmmoBox);
 		
