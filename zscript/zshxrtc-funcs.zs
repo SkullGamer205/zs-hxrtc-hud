@@ -44,44 +44,6 @@ extend class zsHXRTC_HUD
 		// center:
 		DrawTexture(images[4], (pos.x + imgSize.x, pos.y + imgSize.y), flags|StatusBarCore.DI_ITEM_LEFT_TOP, alpha, scale: (distHor / imgSize.x, distVert / imgSize.y));
 	}
-		
-	ui int ColorNum(int num1, int num2, int col1 = Font.CR_UNTRANSLATED, int col2 = Font.CR_UNTRANSLATED, int col3 = Font.CR_UNTRANSLATED, int col4 = Font.CR_UNTRANSLATED, int col5 = Font.CR_UNTRANSLATED , int col6 = Font.CR_UNTRANSLATED)
-	{
-		int col;
-		if (num1 > num2 * 1)
-			col = col6;
-		else if (num1 == num2)
-			col = col5;
-		else if (num1 >= num2 * 0.75)
-			col = col4;
-		else if (num1 >= num2 * 0.5)
-			col = col3;
-		else if (num1 >= num2 * 0.25)
-			col = col2;
-		else
-			col = col1;
-		return col;
-	}
-		
-	ui int TexSize(String texname)
-	{
-		TextureID tex = TexMan.CheckForTexture(texname);
-		return TexMan.GetSize(tex);
-	}
-	
-	ui int AmmoBoxSize(int a)
-	{
-		int b;
-		if (a < 10)
-			b = 1;
-		else if (a < 100)
-			b = 2;
-		else if (a < 1000)
-			b = 3;
-		else
-			b = 4;
-		return b;
-	}
 	
 	ui Vector2 Scale2Box(TextureID tex, double BoxSize)
 	{
@@ -90,5 +52,89 @@ extend class zsHXRTC_HUD
 		double s = BoxSize / LongSide;
 		return (s,s);
 	}
+
+	ui int GetColor(float value1, float value2 , int numColors, array<int> colors)
+	{
+		int out_color;	
+		
+		if (value1 <= 0) {
+			return colors[0];
+		}
+		
+		if (numColors == 1) {
+			if (value1 < value2) {
+			//Console.Printf("%d / %d", value1, value2);
+			return colors[1];
+			}
+			if (value1 >= value2) {
+			return colors[2];
+			}
+		}
+		
+		for (int i = 1; i <= numColors; i++) {
+			float value3 = ((value2 / numColors) * i) ;
+			if (value1 <= value3) {
+				out_color = colors[i];
+				// Console.Printf("%d / %f / %d :: %d :: %d | NumColors:: %d", value1, value3 , value2, i - 1, out_color, numColors);
+				break;
+			}
+		}
+		
+		if (value1 > value2) {
+			out_color = colors[numColors + 1];
+		}
+		return out_color;
+	}
+
+	ui int FontGetWidth(HUDFont FontName)
+	{
+		return FontName.mFont.GetHeight();
+	}
+	
+	ui int TexSize(String texname)
+	{
+		TextureID tex = TexMan.CheckForTexture(texname);
+		return TexMan.GetSize(tex);
+	}
+	
+	clearscope int TicsConvert(int tics){
+	int totalSeconds = tics / TICRATE;
+	return totalSeconds;
+	}
+	
+	// See https://forum.zdoom.org/viewtopic.php?f=46&t=56148 (Thanks Gutawer)
+	ui void GetCurrentAmmo()
+		{
+		if (p) {
+			for (let inv = pwm.Inv; inv; inv = inv.Inv) {
+				// [argv] look through the player pawn's inventory for weapons
+				if (inv is "Weapon") {
+					// [argv] take each ammo item, and add it to ownedAmmo if not already present
+					let ammo = Weapon(inv).Ammo1;
+					if (ammo && ownedAmmo.Size() == ownedAmmo.Find(ammo)) {
+						ownedAmmo.Push(ammo);
+					}
+					
+					ammo = Weapon(inv).Ammo2;
+					if (ammo && ownedAmmo.Size() == ownedAmmo.Find(ammo)) {
+						ownedAmmo.Push(ammo);
+					}
+				}
+			}
+		}
+				for (int i = 0; i < ownedAmmo.Size(); i++) {
+					if (p.ReadyWeapon) {
+						if (p.ReadyWeapon.Ammo1 == ownedAmmo[i]) {
+							curAmmoIndex = i;
+							break;
+						}
+						else if (p.ReadyWeapon.Ammo1 == NULL &&
+								 p.ReadyWeapon.Ammo2 == ownedAmmo[i]) {
+							curAmmoIndex = i;
+							break;
+						}
+					}
+				}
+		}
 
 }

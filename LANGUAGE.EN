@@ -1,7 +1,7 @@
 [enu eng en default]
 
 ZSHXRTC_HUD_OPTIONS = "ZS-HXRTC HUD Options"			;
-ZSHXRTC_HUD_VERSION = "v2025.02.04 | DEV"				;
+ZSHXRTC_HUD_VERSION = "v2025.04.29 | DEV"				;
 
 ZSHXRTC_HUD_GENERAL_OPTIONS = "- - - - - General Options - - - - -";
 ZSHXRTC_HUD_LINFO_OPTIONS = "- - - - - Level Info Module - - - - -";
@@ -13,14 +13,3 @@ ZSHXRTC_LINFO_LENGTH = "Level Info length"				;
 ZSHXRTC_DEATH_ZONE_X = "Death zone (Horizontal)"		;
 ZSHXRTC_DEATH_ZONE_Y = "Death zone (Vertical)"			;
 ZSHXRTC_ALPHA		 = "Alpha"							;
-ZSHXRTC_MAX_VALS = "Mavimum values"						;
-ZSHXRTC_MAXHP = "Maximum HP"							;
-ZSHXRTC_OVERMAXHP = "Over maximum HP"					;
-ZSHXRTC_MAXAP = "Maximum AP"							;
-ZSHXRTC_OVERMAXAP = "Over maximum AP"					;
-
-ZSHXRTC_POSSIBLE_MAX = "The most possible player (without powerups)"	;
-ZSHXRTC_100_MAX	= "100"									;
-ZSHXRTC_200_MAX	= "200"									;
-ZSHXRTC_999_MAX	= "999"									;
-ZSHXRTC_9999_MAX	= "9999"							;
