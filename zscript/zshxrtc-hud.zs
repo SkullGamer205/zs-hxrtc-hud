@@ -7,6 +7,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 	HUDFont HXGENERALFONTS;
 	HUDFont HXGENERALFONTM;
 	HUDFont HXCONSOLEFONT;
+	
+	HUDFont JenocideSmall;
 
 	override void Init()
 	{
@@ -17,6 +19,9 @@ Class zsHXRTC_HUD : BaseStatusBar
 		HXGENERALFONTS = HUDFont.Create("HXGENERALFONTS");
 		HXGENERALFONTM = HUDFont.Create("HXGENERALFONTM");
 		HXCONSOLEFONT  = HUDFont.Create("consolefont");
+		
+		JenocideSmall  = HUDFont.Create("BigFont");
+		
 	}
 	
 	override void Draw (int state, double TicFrac)
@@ -58,10 +63,10 @@ Class zsHXRTC_HUD : BaseStatusBar
 			for (int i = 0; i < LInfoStr.Size(); i++)
 			{
 				LinfoStringID = i;
-				LinfoNamePos = (x_LinfoBox + TexBox1, y_LinfoBox + (FontGetWidth(HXGENERALFONTS) + 1) * (LinfoStringID + 1));
-				LinfoValuePos = ((x_LinfoBox + w_LinfoBox - TexBox1) , (y_LinfoBox + (FontGetWidth(HXGENERALFONTS) + 1) * (LinfoStringID + 1)));
-				DrawString(HXGENERALFONTS, LInfoStr[i].."", LinfoNamePos, DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT, LInfoCol[i]);
-				DrawString(HXGENERALFONTS, LInfoNums[2*i].." - "..LInfoNums[(2*i)+1], LinfoValuePos, DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT, LInfoCol[i]);
+				LinfoNamePos = ((x_LinfoBox + TexBox1) , (y_LinfoBox + TexBox1 + (FontGetWidth(LinfoFont) + 1) * (LinfoStringID)));
+				LinfoValuePos = ((x_LinfoBox + w_LinfoBox - TexBox1) , (y_LinfoBox + TexBox1 + (FontGetWidth(LinfoFont) + 1) * (LinfoStringID)));
+				DrawString(LinfoFont, LInfoStr[i].."", LinfoNamePos, DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT, LInfoCol[i]);
+				DrawString(LinfoFont, LInfoNums[2*i].." - "..LInfoNums[(2*i)+1], LinfoValuePos, DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT, LInfoCol[i]);
 			}
 		}
 	}
@@ -80,21 +85,21 @@ Class zsHXRTC_HUD : BaseStatusBar
 		{
 			HealthStringID = i;
 			x_NamePos = x_HealthBox + TexBox1;
-			y_NamePos = -(y + TexBox1) - (FontGetWidth(HXGENERALFONTS) + 1) * (HealthStringID + 1);
+			y_NamePos = -(y + TexBox1) - (FontGetWidth(HPFont1)) * (HealthStringID + 1);
 			
-			x_BarPos = x_NamePos + (6 * (FontGetWidth(HXGENERALFONTM)) + 2);
+			x_BarPos = x_NamePos + (6 * (FontGetWidth(HPFont1)) + 2);
 			y_BarPos = y_NamePos;
 		
-			x_ValuePos = x_BarPos + BarWidth + (3 * FontGetWidth(HXCONSOLEFONT));
+			x_ValuePos = x_BarPos + BarWidth + (3 * FontGetWidth(HPFont2));
 			y_ValuePos = y_BarPos - 2;
 			
 			HealthNamePos = (x_NamePos, y_NamePos);
 			HealthBarPos = (x_BarPos, y_BarPos);
 			HealthValuePos = (x_ValuePos, y_ValuePos);
 			
-			DrawString(HXGENERALFONTM, HealthStr[i].."", HealthNamePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
+			DrawString(HPFont1, HealthStr[i].."", HealthNamePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
 			DrawBar("HXHABROK", "HXHABRBG", HealthNums[2*i], HealthNums[(2*i)+1], HealthBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
-			DrawString(HXCONSOLEFONT, HealthNums[2*i].."", HealthValuePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, HealthCol[i]);
+			DrawString(HPFont2, HealthNums[2*i].."", HealthValuePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, HealthCol[i]);
 		}
 	}
 	
@@ -113,8 +118,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 			for (int i = 0; i < ownedAmmo.Size(); i++) {
 				int AmmoAmount =ownedAmmo[i].Amount;
 				int AmmoMaxAmount = ownedAmmo[i].MaxAmount;
-				Vector2 AllAmmoBoxLabelPos = (x_AllAmmoBoxLabel, y_AllAmmoBoxLabel - ((FontGetWidth(HXGENERALFONTS) + 1) * ownedAmmo.Size()) + ((FontGetWidth(HXGENERALFONTS) + 1) * i));
-				DrawString(HXGENERALFONTS, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+				Vector2 AllAmmoBoxLabelPos = (x_AllAmmoBoxLabel, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
+				DrawString(AmmoFont1, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			}
 		}
 	}

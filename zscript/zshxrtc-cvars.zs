@@ -2,7 +2,7 @@ extend class zsHXRTC_HUD
 {
 
 	// Font
-	HUDFont TimeFont;
+	HUDFont TimeFont, LinfoFont, HPFont1, HPFont2, AmmoFont1;
 	
 	// Colors
 	int col_kills, col_items, col_scrts;
@@ -73,6 +73,11 @@ extend class zsHXRTC_HUD
 	Vector2 AllAmmoBoxPos;
 	Vector2 AllAmmoBoxSize;
 	
+	float x_AmmoBox, y_AmmoBox;
+	float w_AmmoBox, h_AmmoBox;
+	Vector2 AmmoBoxPos;
+	Vector2 AmmoBoxSize;
+	
 	ui void CacheCvars()
 	{
 		if (!p)
@@ -110,6 +115,10 @@ extend class zsHXRTC_HUD
 		
 		// Fonts
 		TimeFont = HXCONSOLEFONT;
+		LinfoFont = HXGENERALFONTS;
+		HPFont1 = HXGENERALFONTM;
+		HPFont2 = HXCONSOLEFONT;
+		AmmoFont1 = HXGENERALFONTS;
 		
 		// General HUD Vars
 		x = w_deathzone.GetInt();
@@ -132,21 +141,21 @@ extend class zsHXRTC_HUD
 		
 		x_LinfoBox = x_TimeBox;
 		y_LinfoBox = y_TimeBox + h_TimeBox;
-		w_LinfoBox = w_TimeBox; h_LinfoBox = ((2 * TexBox1) + (3 * FontGetWidth(HXGENERALFONTS)) + 1);
+		w_LinfoBox = w_TimeBox; h_LinfoBox = ((2 * TexBox1) + (3 * (FontGetWidth(LinfoFont) + 1) - 1));
 		LinfoBoxPos = (x_LinfoBox, y_LinfoBox);
 		LinfoBoxSize = (w_LinfoBox, h_LinfoBox);
 		
 		// HP AP Vars
-		PHealth = pwm.Health;
-		PMaxHealth = pwm.GetMaxHealth(true);
+		PHealth = pwm.Health ;
+		PMaxHealth = pwm.GetMaxHealth(true) ;
 		let ArmorType = pwm.FindInventory("BasicArmor", true);	
 		PArmor = ArmorType.amount;
 		PMaxArmor = ArmorType.MaxAmount;
 		PArmorPercent = basicarmor(ArmorType).SavePercent * 100;
 		
 		BarWidth = TexSize("HXHABROK");
-		w_HealthBox = ((6 * (FontGetWidth(HXGENERALFONTM) + 1) + 2) + BarWidth + (3 * (FontGetWidth(HXGENERALFONTS) + 1)) + (2 * TexBox1));
-		h_HealthBox = (2 * TexBox1 + (2 * FontGetWidth(HXGENERALFONTM)) + 1);
+		w_HealthBox = ((6 * (FontGetWidth(HPFont1) + 1) + 2) + BarWidth + (3 * (FontGetWidth(HPFont2))) + TexBox1);
+		h_HealthBox = (2 * TexBox1 + (2 * FontGetWidth(HPFont1)) + 1);
 		x_HealthBox = x; y_HealthBox = -(y + h_HealthBox);
 		HealthBoxPos = (x_HealthBox, y_HealthBox);
 		HealthBoxSize = (w_HealthBox, h_HealthBox);
@@ -162,13 +171,15 @@ extend class zsHXRTC_HUD
 		x_Mugshot = x_MugBox + (MugBox / 2);
 		y_Mugshot = y_MugBox + (mugBox / 2);
 		MugPos2 = (x_Mugshot, y_Mugshot);
-		// All Ammo
 		
+		// All Ammo	
 		x_AllAmmoBox = -(x + w_AllAmmoBox); y_AllAmmoBox = -(y + h_AllAmmoBox);
 		x_AllAmmoBoxLabel = -(x + TexBox1); y_AllAmmoBoxLabel = -(y + TexBox1); 
-		w_AllAmmoBox = (FontGetWidth(HXGENERALFONTS) + 1) * 8; h_AllAmmoBox = ((FontGetWidth(HXGENERALFONTS) + 1) * (ownedAmmo.Size() + 1) + TexBox1);
+		w_AllAmmoBox = (FontGetWidth(AmmoFont1) + 1) * 8; h_AllAmmoBox = ((FontGetWidth(AmmoFont1) + 1) * ownedAmmo.Size() + (TexBox1 * 2) - 1);
 		AllAmmoBoxSize = (w_AllAmmoBox, h_AllAmmoBox);
 		AllAmmoBoxPos = (x_AllAmmoBox, y_AllAmmoBox);
+		
+	
 		
 	}
 }
