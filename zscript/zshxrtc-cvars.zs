@@ -60,10 +60,31 @@ extend class zsHXRTC_HUD
 	Vector2 HealthValuePos;
 	
 	// Mugshot	
-	int SmallBox, MugBox;
+	int MugBox;
 	float x_MugBox, y_MugBox;
 	float x_Mugshot, y_Mugshot;
 	Vector2 MugPos, MugSize, MugPos2;
+	
+	// Armor Iocn
+	int SmallBox;
+	float x_ArmIcoBox, y_ArmIcoBox;
+	float w_ArmIcoBox, h_ArmIcoBox;
+	
+	float x_ArmIcon, y_ArmIcon;
+	
+	Vector2 ArmIcoBoxPos;
+	Vector2 ArmIcoBoxSize;
+	Vector2 ArmIconPos;
+	
+	// Berserk Icon
+	float x_BskIcoBox, y_BskIcoBox;
+	float w_BskIcoBox, h_BskIcoBox;
+	
+	float x_BskIcon, y_BskIcon;
+	
+	Vector2 BskIcoBoxPos;
+	Vector2 BskIcoBoxSize;
+	Vector2 BskIconPos;
 	
 	// Ammo
 	Array<Ammo> ownedAmmo;
@@ -161,16 +182,44 @@ extend class zsHXRTC_HUD
 		HealthBoxSize = (w_HealthBox, h_HealthBox);
 		
 		// Mugshot
-		SmallBox = 24;
 		MugBox = 46;
 		x_MugBox = x_HealthBox;
-		y_MugBox = y_HealthBox - mugBox;
+		y_MugBox = y_HealthBox - MugBox;
 		MugPos = (x_MugBox, y_MugBox);
 		MugSize = (MugBox, MugBox);
 		
 		x_Mugshot = x_MugBox + (MugBox / 2);
 		y_Mugshot = y_MugBox + (mugBox / 2);
 		MugPos2 = (x_Mugshot, y_Mugshot);
+		
+		// Armor Icon
+		SmallBox = 24;
+		x_ArmIcoBox = x_MugBox + MugBox;
+		y_ArmIcoBox = y_HealthBox - SmallBox;
+		
+		w_ArmIcoBox = SmallBox;
+		h_ArmIcoBox = SmallBox;
+		
+		x_ArmIcon = x_ArmIcoBox + (SmallBox / 2);
+		y_ArmIcon = y_ArmIcoBox + (SmallBox / 2);
+		
+		ArmIcoBoxPos = (x_ArmIcoBox , y_ArmIcoBox);
+		ArmIcoBoxSize = (w_ArmIcoBox , h_ArmIcoBox);
+		
+		ArmIconPos = (x_ArmIcon , y_ArmIcon);
+		
+		// Berserk Icon
+		x_BskIcoBox = x_ArmIcoBox + SmallBox;
+		y_BskIcoBox = y_ArmIcoBox;
+		w_BskIcoBox = SmallBox;
+		h_BskIcoBox = SmallBox;
+		
+		x_BskIcon = x_BskIcoBox + (SmallBox / 2);
+		y_BskIcon = y_BskIcoBox + (SmallBox / 2);
+		
+		BskIcoBoxPos = (x_BskIcoBox , y_BskIcoBox);
+		BskIcoBoxSize = (w_BskIcoBox , h_BskIcoBox);
+		BskIconPos = (x_BskIcon, y_BskIcon);
 		
 		// All Ammo	
 		x_AllAmmoBox = -(x + w_AllAmmoBox); y_AllAmmoBox = -(y + h_AllAmmoBox);

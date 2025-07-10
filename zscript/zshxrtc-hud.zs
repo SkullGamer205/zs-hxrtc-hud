@@ -37,6 +37,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 			DrawStats(TicFrac);
 			DrawHPAP(TicFrac);
 			DrawMugshot(TicFrac);
+			DrawArmorBox(TicFrac);
+			DrawBerserkBox(TicFrac);
 			DrawAmmoInv(TicFrac);
 			DrawAmmoCur(TicFrac);
 		}
@@ -107,6 +109,25 @@ Class zsHXRTC_HUD : BaseStatusBar
 	{
 		Draw9Slice(MugPos, MugSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha);
 		DrawTexture(GetMugShot(5), MugPos2, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_CENTER);
+	}
+	
+	protected virtual void DrawArmorBox (double TicFrac)
+	{	
+		let ArmorType = pwm.FindInventory("BasicArmor");	
+		let ArmorIcon = ArmorType.icon;
+		double ArmorIconSize = (SmallBox - (2 * TexBox2));
+		Draw9Slice(ArmIcoBoxPos, ArmIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+		if (PArmor != 0)
+		{
+			DrawTexture(ArmorIcon, ArmIconPos, DI_ITEM_CENTER, scale:Scale2Box(ArmorIcon, ArmorIconSize));
+		}
+	}
+	
+	protected virtual void DrawBerserkBox (double TicFrac)
+	{
+		let berserk_status = pwm.FindInventory("PowerStrength");
+		Draw9Slice(BskIcoBoxPos, BskIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+		DrawImage(berserk_status? "HXBERSRK" : "HXHEALTH", BskIconPos , DI_ITEM_CENTER);
 	}
 	
 	protected virtual void DrawAmmoInv (double TicFrac)
