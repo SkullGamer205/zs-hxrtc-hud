@@ -2,7 +2,7 @@ extend class zsHXRTC_HUD
 {
 
 	// Font
-	HUDFont TimeFont, LinfoFont, HPFont1, HPFont2, ArmFont, AmmoFont1;
+	HUDFont TimeFont, LinfoFont, HPFont1, HPFont2, ArmFont, InvFont, AmmoFont1;
 	
 	// Colors
 	int col_kills, col_items, col_scrts;
@@ -64,6 +64,23 @@ extend class zsHXRTC_HUD
 	float x_MugBox, y_MugBox;
 	float x_Mugshot, y_Mugshot;
 	Vector2 MugPos, MugSize, MugPos2;
+	
+	// Current Inventory
+	float x_InvCur, y_InvCur;
+	float w_InvCur, h_invCur;
+	float CurIconSize;	
+	float x_InvCount, y_InvCount;
+	
+	Vector2 InvCurPos;
+	Vector2 InvCurSize;
+	
+	Vector2 InvCBordPos;
+	Vector2 InvCBordSize;
+	
+	Vector2 InvCountPos;
+	Vector2 CurIconPos;
+	
+
 	
 	// Inventory Bar
 	float x_InvBar, y_InvBar;
@@ -152,7 +169,8 @@ extend class zsHXRTC_HUD
 		LinfoFont = HXGENERALFONTS;
 		HPFont1 = HXGENERALFONTM;
 		HPFont2 = HXCONSOLEFONT;
-		ArmFont = HXGENERALFONTS;
+		ArmFont = LinfoFont;
+		InvFont = LinfoFont;
 		AmmoFont1 = HXGENERALFONTS;
 		
 		// General HUD Vars
@@ -206,9 +224,25 @@ extend class zsHXRTC_HUD
 		y_Mugshot = y_MugBox + (mugBox / 2);
 		MugPos2 = (x_Mugshot, y_Mugshot);
 		
+		// Current Inventory
+		w_InvCur = MugBox;
+		h_InvCur = 32 + (2 * TexBox2);
+		x_InvCur = x_MugBox;
+		y_InvCur = y_MugBox - h_InvCur;
+		x_InvCount = x_InvCur + w_InvCur - (TexBox2 * 2);
+		y_InvCount = y_InvCur + (h_InvCur - ((2 * TexBox2) + FontGetWidth(InvFont)));
+		
+		InvCurPos = (x_InvCur , y_InvCur);
+		InvCurSize = (w_InvCur , h_InvCur);
+		InvCBordPos = (x_InvCur + TexBox2 , y_InvCur + TexBox2);
+		InvCBordSize = (w_InvCur - (2 * TexBox2)  , h_InvCur - (2 * TexBox2));
+		InvCountPos = (x_InvCount , y_InvCount);
+		CurIconPos = (x_InvCur + (w_InvCur / 2) , y_InvCur + (h_InvCur - TexBox2 - 2));;
+		CurIconSize = (h_InvCur - (2 * TexBox2) - 2);
+		
 		// Inventory Bar
 		x_InvBar = 0;
-		y_InvBar = -4;
+		y_InvBar = -y;
 		
 		InvBarPos = (x_InvBar , y_InvBar);
 		

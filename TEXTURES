@@ -1,0 +1,44 @@
+Texture "HXSEL1", 7, 7
+{
+	Patch "HXSEL", 0, 0
+}
+
+Texture "HXSEL2", 1, 7
+{
+	Patch "HXSEL", -7, 0
+}
+
+Texture "HXSEL3", 7, 7
+{
+	Patch "HXSEL", -8, 0
+}
+
+Texture "HXSEL4", 7, 1
+{
+	Patch "HXSEL", 0, -7
+}
+
+Texture "HXSEL5", 1, 1
+{
+	Patch "HXSEL", -7, -7
+}
+
+Texture "HXSEL6", 7, 1
+{
+	Patch "HXSEL", -8, -7
+}
+
+Texture "HXSEL7", 7, 7
+{
+	Patch "HXSEL", 0, -8
+}
+
+Texture "HXSEL8", 1, 7
+{
+	Patch "HXSEL", -7, -8
+}
+
+Texture "HXSEL9", 7, 7
+{
+	Patch "HXSEL", -8, -8
+}

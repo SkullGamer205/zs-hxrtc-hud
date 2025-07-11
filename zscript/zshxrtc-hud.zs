@@ -2,6 +2,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 {
 	PlayerInfo p;
 	PlayerPawn pwm;
+	Inventory pinvsel;
 	InventoryBarState pinv;
 	HUDFont HXINDEXFONTM;
 	HUDFont HXSTATUSFONT;
@@ -116,7 +117,18 @@ Class zsHXRTC_HUD : BaseStatusBar
 	
 	protected virtual void DrawPlayerInv (double TicFrac)
 	{
-	pinv = InventoryBarState.Create(null, Font.CR_UNTRANSLATED, 1, "ARTIBOX");
+		// Current (Selected)
+		pinvsel = pwm.InvSel;
+		if (pinvsel != NULL) {
+			Draw9Slice(InvCurPos, InvCurSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+			Draw9Slice(InvCBordPos, InvCBordSize, DI_SCREEN_LEFT_BOTTOM, "HXSEL", alpha);
+			DrawInventoryIcon(pinvsel, CurIconPos, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_HCENTER);
+			if (pinvsel.Amount > 1) {
+				DrawString(LinfoFont, pinvsel.Amount.."", InvCountPos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+			}
+		}
+		// All (Bar)
+		pinv = InventoryBarState.Create(InvFont, Font.CR_WHITE, alpha, "ARTIBOX", "HXSLCT");
 		if (isInventoryBarVisible()) {
 			DrawInventoryBar(pinv, InvBarPos, 7, DI_SCREEN_CENTER_BOTTOM | DI_ITEM_HCENTER | DI_ITEM_BOTTOM);
 		}
@@ -164,6 +176,11 @@ Class zsHXRTC_HUD : BaseStatusBar
 				DrawString(AmmoFont1, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			}
 		}
+	}
+	
+	protected virtual void DrawAmmoIcon (double TicFrac)
+	{
+		DrawInventoryIcon(CPlayer.ReadyWeapon, (60, 60), DI_SCREEN_LEFT_TOP);
 	}
 	
 	protected virtual void DrawAmmoCur (double TicFrac)
