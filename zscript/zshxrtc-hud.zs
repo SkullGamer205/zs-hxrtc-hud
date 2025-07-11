@@ -9,8 +9,6 @@ Class zsHXRTC_HUD : BaseStatusBar
 	HUDFont HXGENERALFONTS;
 	HUDFont HXGENERALFONTM;
 	HUDFont HXCONSOLEFONT;
-	
-	HUDFont JenocideSmall;
 
 	override void Init()
 	{
