@@ -2,6 +2,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 {
 	PlayerInfo p;
 	PlayerPawn pwm;
+	InventoryBarState pinv;
 	HUDFont HXINDEXFONTM;
 	HUDFont HXSTATUSFONT;
 	HUDFont HXGENERALFONTS;
@@ -37,6 +38,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 			DrawStats(TicFrac);
 			DrawHPAP(TicFrac);
 			DrawMugshot(TicFrac);
+			DrawPlayerInv(TicFrac);
 			DrawArmorBox(TicFrac);
 			DrawArmorPercentBox(TicFrac);
 			DrawBerserkBox(TicFrac);
@@ -110,6 +112,14 @@ Class zsHXRTC_HUD : BaseStatusBar
 	{
 		Draw9Slice(MugPos, MugSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha);
 		DrawTexture(GetMugShot(5), MugPos2, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_CENTER);
+	}
+	
+	protected virtual void DrawPlayerInv (double TicFrac)
+	{
+	pinv = InventoryBarState.Create(null, Font.CR_UNTRANSLATED, 1, "ARTIBOX");
+		if (isInventoryBarVisible()) {
+			DrawInventoryBar(pinv, InvBarPos, 7, DI_SCREEN_CENTER_BOTTOM | DI_ITEM_HCENTER | DI_ITEM_BOTTOM);
+		}
 	}
 	
 	protected virtual void DrawArmorBox (double TicFrac)

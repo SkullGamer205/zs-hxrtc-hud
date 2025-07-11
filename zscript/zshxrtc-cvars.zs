@@ -65,6 +65,10 @@ extend class zsHXRTC_HUD
 	float x_Mugshot, y_Mugshot;
 	Vector2 MugPos, MugSize, MugPos2;
 	
+	// Inventory Bar
+	float x_InvBar, y_InvBar;
+	Vector2 InvBarPos;
+	
 	// Armor Iocn
 	int SmallBox;
 	float x_ArmIcoBox, y_ArmIcoBox;
@@ -201,6 +205,12 @@ extend class zsHXRTC_HUD
 		x_Mugshot = x_MugBox + (MugBox / 2);
 		y_Mugshot = y_MugBox + (mugBox / 2);
 		MugPos2 = (x_Mugshot, y_Mugshot);
+		
+		// Inventory Bar
+		x_InvBar = 0;
+		y_InvBar = -4;
+		
+		InvBarPos = (x_InvBar , y_InvBar);
 		
 		// Armor Icon
 		SmallBox = 24;
