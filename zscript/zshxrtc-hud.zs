@@ -38,6 +38,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 			DrawHPAP(TicFrac);
 			DrawMugshot(TicFrac);
 			DrawArmorBox(TicFrac);
+			DrawArmorPercentBox(TicFrac);
 			DrawBerserkBox(TicFrac);
 			DrawAmmoInv(TicFrac);
 			DrawAmmoCur(TicFrac);
@@ -121,6 +122,16 @@ Class zsHXRTC_HUD : BaseStatusBar
 		{
 			DrawTexture(ArmorIcon, ArmIconPos, DI_ITEM_CENTER, scale:Scale2Box(ArmorIcon, ArmorIconSize));
 		}
+	}
+	
+	protected virtual void DrawArmorPercentBox (double TicFrac)
+	{
+		Draw9Slice(ArmPercBoxPos, ArmPercBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+		if (PArmor > 0)
+			{
+				DrawString(ArmFont, PArmorPercent.."", ArmPercNumPos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+				DrawString(ArmFont, "%", ArmPercentPos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+			}
 	}
 	
 	protected virtual void DrawBerserkBox (double TicFrac)

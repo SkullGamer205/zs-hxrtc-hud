@@ -2,7 +2,7 @@ extend class zsHXRTC_HUD
 {
 
 	// Font
-	HUDFont TimeFont, LinfoFont, HPFont1, HPFont2, AmmoFont1;
+	HUDFont TimeFont, LinfoFont, HPFont1, HPFont2, ArmFont, AmmoFont1;
 	
 	// Colors
 	int col_kills, col_items, col_scrts;
@@ -70,10 +70,19 @@ extend class zsHXRTC_HUD
 	float x_ArmIcoBox, y_ArmIcoBox;
 	float w_ArmIcoBox, h_ArmIcoBox;
 	
+	float x_ArmPercBox, y_ArmPercBox;
+	float w_ArmPercBox, h_ArmPercBox;
+	float x_ArmPercNum, y_ArmPercNum;
+	float x_ArmPercent, y_ArmPercent;
+	
 	float x_ArmIcon, y_ArmIcon;
 	
 	Vector2 ArmIcoBoxPos;
 	Vector2 ArmIcoBoxSize;
+	Vector2 ArmPercBoxPos;
+	Vector2 ArmPercBoxSize;
+	Vector2 ArmPercNumPos;
+	Vector2 ArmPercentPos;
 	Vector2 ArmIconPos;
 	
 	// Berserk Icon
@@ -139,6 +148,7 @@ extend class zsHXRTC_HUD
 		LinfoFont = HXGENERALFONTS;
 		HPFont1 = HXGENERALFONTM;
 		HPFont2 = HXCONSOLEFONT;
+		ArmFont = HXGENERALFONTS;
 		AmmoFont1 = HXGENERALFONTS;
 		
 		// General HUD Vars
@@ -196,16 +206,27 @@ extend class zsHXRTC_HUD
 		SmallBox = 24;
 		x_ArmIcoBox = x_MugBox + MugBox;
 		y_ArmIcoBox = y_HealthBox - SmallBox;
-		
 		w_ArmIcoBox = SmallBox;
 		h_ArmIcoBox = SmallBox;
+		
+		w_ArmPercBox = w_ArmIcoBox;
+		h_ArmPercBox = FontGetWidth(ArmFont) + (2 * TexBox2);
+		x_ArmPercBox = x_ArmIcoBox;
+		y_ArmPercBox = y_ArmIcoBox - h_ArmPercBox;
+		x_ArmPercNum = x_ArmPercBox + TexBox2 + ((2 * (FontGetWidth(ArmFont) + 1) - 1));
+		y_ArmPercNum = y_ArmPercBox + TexBox2;
+		x_ArmPercent = x_ArmPercBox + w_ArmPercBox - TexBox2;
+		y_ArmPercent = y_ArmPercNum;
 		
 		x_ArmIcon = x_ArmIcoBox + (SmallBox / 2);
 		y_ArmIcon = y_ArmIcoBox + (SmallBox / 2);
 		
 		ArmIcoBoxPos = (x_ArmIcoBox , y_ArmIcoBox);
 		ArmIcoBoxSize = (w_ArmIcoBox , h_ArmIcoBox);
-		
+		ArmPercBoxPos = (x_ArmPercBox , y_ArmPercBox);
+		ArmPercBoxSize = (w_ArmPercBox , h_ArmPercBox);
+		ArmPercNumPos = (x_ArmPercNum , y_ArmPercNum);
+		ArmPercentPos = (x_ArmPercent , y_ArmPercent);
 		ArmIconPos = (x_ArmIcon , y_ArmIcon);
 		
 		// Berserk Icon
