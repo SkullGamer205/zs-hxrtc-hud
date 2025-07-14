@@ -142,6 +142,8 @@ extend class zsHXRTC_HUD
 	float x_PAmmo2, y_PAmmo2;
 	float x_PAmmo1Label, y_PAmmo1Label;
 	float x_PAmmo2Label, y_PAmmo2Label;
+	float x_PAmmo1Bar, y_PAmmo1Bar;
+	float x_PAmmo2Bar, y_PAmmo2Bar;
 	
 	float w_PAmmo1, h_PAmmo1;
 	float w_PAmmo2, h_PAmmo2;
@@ -149,6 +151,7 @@ extend class zsHXRTC_HUD
 	Vector2 PAmmo1Pos, PAmmo1Size;
 	Vector2 PAmmo2Pos, PAmmo2Size;
 	Vector2 PAmmo1LabelPos, PAmmo2LabelPos;
+	Vector2 PAmmo1BarPos, PAmmo2BarPos;
 	
 	ui void CacheCvars()
 	{
@@ -329,7 +332,10 @@ extend class zsHXRTC_HUD
 			y_PAmmo1 = -y - h_PAmmo1;
 			
 			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + CurAmmoBarWidth + (2 * TexBox1);
-			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1);
+			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1) + 2;
+			
+			x_PAmmo1Bar = x_PAmmo1 + TexBox1 - 2;
+			y_PAmmo1Bar = y_PAmmo1 + TexBox1 - 2;
 			
 			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - TexBox1);
 			y_PAmmo1Label = y_PAmmo1 + TexBox1;
@@ -343,10 +349,15 @@ extend class zsHXRTC_HUD
 		
 			// FontGetWidthNew
 			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + CurAmmoBarWidth + (2 * TexBox1);
-			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1);
+			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1) + 2;
 		
 			w_PAmmo2= FontStringWidth(String.Format("%d", (PAmmo2.maxamount ? PAmmo2.maxamount : 0)), AmmoFont2) + CurAmmoBarWidth + (2 * TexBox1);
 			h_PAmmo2 = h_PAmmo1;
+			
+			x_PAmmo1Bar = x_PAmmo1 + TexBox1 - 2;
+			y_PAmmo1Bar = y_PAmmo1 + TexBox1 - 2;
+			x_PAmmo2Bar = x_PAmmo2 + TexBox1 - 2;
+			y_PAmmo2Bar = y_PAmmo2 + TexBox1 - 2;
 			
 			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - TexBox1);
 			y_PAmmo1Label = y_PAmmo1 + TexBox1;
@@ -358,7 +369,8 @@ extend class zsHXRTC_HUD
 		PAmmo2Pos = (x_PAmmo2 , y_PAmmo2) ;
 		PAmmo1Size = (w_PAmmo1 , h_PAmmo1) ;
 		PAmmo2Size = (w_PAmmo2 , h_PAmmo2) ;
-		
+		PAmmo1BarPos = (x_PAmmo1Bar , y_PAmmo1Bar);
+		PAmmo2BarPos = (x_PAmmo2Bar , y_PAmmo2Bar);
 		PAmmo1LabelPos = (x_PAmmo1Label , y_PAmmo1Label);
 		PAmmo2LabelPos = (x_PAmmo2Label , y_PAmmo2Label);
 	}

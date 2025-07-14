@@ -196,6 +196,9 @@ Class zsHXRTC_HUD : BaseStatusBar
 			Ammo PAmmo = PAmmo1 ? PAmmo1 : PAmmo2;
 			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
 			DrawString(AmmoFont2, PAmmo.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+			DrawBar("HXAMBROK", "HXAMBRBG", PAmmo.amount, PAmmo.maxamount, PAmmo1BarPos, 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
+			// PAmmo1BarPos
+			// DrawBar("HXAMBROK", "HXAMBRBG",PAmmo2.amount, PAmmo2.maxamount, (-(x + w_AllAmmoBox + w_Ammo2Box - TexOffset + Offset), -(y + TexOffset - 2)), 0,  SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
 		}
 		
 		else
@@ -204,6 +207,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 			Draw9Slice(PAmmo2Pos, PAmmo2Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
 			DrawString(AmmoFont2, PAmmo1.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			DrawString(AmmoFont2, PAmmo2.amount.."" , PAmmo2LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+			DrawBar("HXAMBROK", "HXAMBRBG", PAmmo1.amount, PAmmo1.maxamount, PAmmo1BarPos, 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
+			DrawBar("HXAMBROK", "HXAMBRBG", PAmmo2.amount, PAmmo2.maxamount, PAmmo2BarPos, 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
 		}
 	}
 	
