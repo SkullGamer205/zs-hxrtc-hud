@@ -9,6 +9,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 	HUDFont HXGENERALFONTS;
 	HUDFont HXGENERALFONTM;
 	HUDFont HXCONSOLEFONT;
+	
+	HUDFont JenocideSmall;
 
 	override void Init()
 	{
@@ -78,8 +80,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 	protected virtual void DrawHPAP (double TicFrac)
 	{
 		Draw9Slice(HealthBoxPos, HealthBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha);
-		array<string> HealthStr = {"ARMOUR", "HEALTH"};
 		array <int> HealthCol = {col_ap, col_hp};
+		array<string> HealthStr = {"ARMOUR", "HEALTH"};
 		int HealthNums[4] = {
 				PArmor, PMaxArmor,
 				PHealth, PMaxHealth
@@ -164,7 +166,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 	protected virtual void DrawAmmoInv (double TicFrac)
 	{
 		ownedAmmo.Clear();
-		GetCurrentAmmo();
+		GetCurAmmo();
 		if (ownedAmmo.Size() > 0) {
 			Draw9Slice(AllAmmoBoxPos, AllAmmoBoxSize, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
 			for (int i = 0; i < ownedAmmo.Size(); i++) {
@@ -183,6 +185,26 @@ Class zsHXRTC_HUD : BaseStatusBar
 	
 	protected virtual void DrawAmmoCur (double TicFrac)
 	{
+		CacheCvars();
+		if (!PAmmo1 && !PAmmo2)
+		{
+			return;
+		}
+		
+		if ((PAmmo1 && !PAmmo2) || (!PAmmo1 && PAmmo2) || (PAmmo1 == PAmmo2))
+		{
+			Ammo PAmmo = PAmmo1 ? PAmmo1 : PAmmo2;
+			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+			DrawString(AmmoFont2, PAmmo.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+		}
+		
+		else
+		{		
+			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+			Draw9Slice(PAmmo2Pos, PAmmo2Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+			DrawString(AmmoFont2, PAmmo1.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+			DrawString(AmmoFont2, PAmmo2.amount.."" , PAmmo2LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+		}
 	}
 	
 }

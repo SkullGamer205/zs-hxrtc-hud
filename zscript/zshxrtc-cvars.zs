@@ -2,7 +2,9 @@ extend class zsHXRTC_HUD
 {
 
 	// Font
-	HUDFont TimeFont, LinfoFont, HPFont1, HPFont2, ArmFont, InvFont, AmmoFont1;
+	HUDFont TimeFont, LinfoFont, 
+				HPFont1, HPFont2, ArmFont, 
+					InvFont, AmmoFont1, AmmoFont2;
 	
 	// Colors
 	int col_kills, col_items, col_scrts;
@@ -50,7 +52,10 @@ extend class zsHXRTC_HUD
 
 	int BarWidth;
 	int HealthStringID;
-	int x_NamePos, y_NamePos, x_BarPos, y_BarPos, x_ValuePos, y_ValuePos;
+	int x_NamePos, 		y_NamePos,
+		x_BarPos, 		y_BarPos,
+		x_ValuePos, 	y_ValuePos;
+		
 	float x_HealthBox, y_HealthBox;
 	float w_HealthBox, h_HealthBox;
 	Vector2 HealthBoxPos;
@@ -79,8 +84,6 @@ extend class zsHXRTC_HUD
 	
 	Vector2 InvCountPos;
 	Vector2 CurIconPos;
-	
-
 	
 	// Inventory Bar
 	float x_InvBar, y_InvBar;
@@ -116,10 +119,12 @@ extend class zsHXRTC_HUD
 	Vector2 BskIcoBoxSize;
 	Vector2 BskIconPos;
 	
-	// Ammo
+	// Ammo	
+	// List Ammo
 	Array<Ammo> ownedAmmo;
 	int curAmmoIndex;
-	float x_AllAmmoBox, y_AllAmmoBox, x_AllAmmoBoxLabel, y_AllAmmoBoxLabel;
+	float x_AllAmmoBox, y_AllAmmoBox,
+			x_AllAmmoBoxLabel, y_AllAmmoBoxLabel;
 	float w_AllAmmoBox, h_AllAmmoBox;
 	Vector2 AllAmmoBoxPos;
 	Vector2 AllAmmoBoxSize;
@@ -128,6 +133,21 @@ extend class zsHXRTC_HUD
 	float w_AmmoBox, h_AmmoBox;
 	Vector2 AmmoBoxPos;
 	Vector2 AmmoBoxSize;
+	
+	// Current Ammo
+	Ammo PAmmo1, PAmmo2;
+	int PAmmo1_Amount, PAmmo2_Amount;
+	float x_PAmmo1, y_PAmmo1;
+	float x_PAmmo2, y_PAmmo2;
+	float x_PAmmo1Label, y_PAmmo1Label;
+	float x_PAmmo2Label, y_PAmmo2Label;
+	
+	float w_PAmmo1, h_PAmmo1;
+	float w_PAmmo2, h_PAmmo2;
+	
+	Vector2 PAmmo1Pos, PAmmo1Size;
+	Vector2 PAmmo2Pos, PAmmo2Size;
+	Vector2 PAmmo1LabelPos, PAmmo2LabelPos;
 	
 	ui void CacheCvars()
 	{
@@ -156,10 +176,10 @@ extend class zsHXRTC_HUD
 		array<int> StatCol = {11, 11, 10};		
 		array<int> ParCol = {10, 10, 11};
 		array<int> HPCol = {11, 6, 8, 10, 3, 7};
-		col_kills = GetColor(level.killed_monsters, level.total_monsters,	1, StatCol);
-		col_items = GetColor(level.found_items, level.total_items,			1, StatCol);
-		col_scrts = GetColor(level.found_secrets, level.total_secrets,		1, StatCol);
-		col_par	= GetColor(TicsConvert(level.Time), level.ParTime,		1, ParCol);
+		col_kills	 = GetColor(level.killed_monsters, level.total_monsters,	1, StatCol)	;
+		col_items	 = GetColor(level.found_items, level.total_items,			1, StatCol)	;
+		col_scrts	 = GetColor(level.found_secrets, level.total_secrets,		1, StatCol)	;
+		col_par	 	 = GetColor(TicsConvert(level.Time), level.ParTime,			1,  ParCol) ;
 		
 		col_hp = GetColor(PHealth, PMaxHealth,		4, HPCol);
 		col_ap = GetColor(PArmor, PMaxArmor,		4, HPCol);
@@ -172,6 +192,7 @@ extend class zsHXRTC_HUD
 		ArmFont = LinfoFont;
 		InvFont = LinfoFont;
 		AmmoFont1 = HXGENERALFONTS;
+		AmmoFont2 = HXSTATUSFONT;
 		
 		// General HUD Vars
 		x = w_deathzone.GetInt();
@@ -185,7 +206,7 @@ extend class zsHXRTC_HUD
 		show_time  = HX_ShowTime.GetBool();
 		show_linfo = HX_ShowLinfo.GetBool();
 		
-		w_TimeBox = 8 * FontGetWidth(TimeFont) + 2 * TexBox1;
+		w_TimeBox = ((level.TimeFormatted()).Length() * (FontGetWidth(TimeFont) + 1)) + (2 * TexBox1);
 		h_TimeBox = FontGetWidth(TimeFont) + 1.5 * TexBox1;
 		x_TimeBox = x;	
 		TimeBoxPos = (x_TimeBox, y_TimeBox);
@@ -207,7 +228,8 @@ extend class zsHXRTC_HUD
 		PArmorPercent = basicarmor(ArmorType).SavePercent * 100;
 		
 		BarWidth = TexSize("HXHABROK");
-		w_HealthBox = ((6 * (FontGetWidth(HPFont1) + 1) + 2) + BarWidth + (3 * (FontGetWidth(HPFont2))) + TexBox1);
+		w_HealthBox = ((("HEALTH").Length() * (FontGetWidth(HPFont1) + 1) + 2) + BarWidth + (("999").Length() * (FontGetWidth(HPFont2))) + TexBox1);
+		// w_HealthBox = ((6 * (FontGetWidth(HPFont1) + 1) + 2) + BarWidth + (3 * (FontGetWidth(HPFont2))) + TexBox1);
 		h_HealthBox = (2 * TexBox1 + (2 * FontGetWidth(HPFont1)) + 1);
 		x_HealthBox = x; y_HealthBox = -(y + h_HealthBox);
 		HealthBoxPos = (x_HealthBox, y_HealthBox);
@@ -257,7 +279,7 @@ extend class zsHXRTC_HUD
 		h_ArmPercBox = FontGetWidth(ArmFont) + (2 * TexBox2);
 		x_ArmPercBox = x_ArmIcoBox;
 		y_ArmPercBox = y_ArmIcoBox - h_ArmPercBox;
-		x_ArmPercNum = x_ArmPercBox + TexBox2 + ((2 * (FontGetWidth(ArmFont) + 1) - 1));
+		x_ArmPercNum = x_ArmPercBox + TexBox2 + ((("99").Length() * (FontGetWidth(ArmFont) + 1) - 1));
 		y_ArmPercNum = y_ArmPercBox + TexBox2;
 		x_ArmPercent = x_ArmPercBox + w_ArmPercBox - TexBox2;
 		y_ArmPercent = y_ArmPercNum;
@@ -291,9 +313,52 @@ extend class zsHXRTC_HUD
 		x_AllAmmoBoxLabel = -(x + TexBox1); y_AllAmmoBoxLabel = -(y + TexBox1); 
 		w_AllAmmoBox = (FontGetWidth(AmmoFont1) + 1) * 8; h_AllAmmoBox = ((FontGetWidth(AmmoFont1) + 1) * ownedAmmo.Size() + (TexBox1 * 2) - 1);
 		AllAmmoBoxSize = (w_AllAmmoBox, h_AllAmmoBox);
-		AllAmmoBoxPos = (x_AllAmmoBox, y_AllAmmoBox);
+		AllAmmoBoxPos = (x_AllAmmoBox, y_AllAmmoBox);	
 		
-	
+		// Current Ammo
+		[PAmmo1, PAmmo2] = GetCurrentAmmo();
+		if (!PAmmo1 && !PAmmo2)
+		{
+			return;
+		}
+		if ((PAmmo1 && !PAmmo2) || (!PAmmo1 && PAmmo2) || (PAmmo1 == PAmmo2))
+		{
+			Ammo PAmmo = PAmmo1 ? PAmmo1 : PAmmo2;
+			x_PAmmo1 = x_AllAmmoBox - w_PAmmo1;
+			y_PAmmo1 = -y - h_PAmmo1;
+			
+			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + (2 * TexBox1);
+			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1);
+			
+			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - TexBox1);
+			y_PAmmo1Label = y_PAmmo1 + TexBox1;
+		}
+		else
+		{
+			x_PAmmo1 = x_AllAmmoBox - w_PAmmo1;
+			y_PAmmo1 = -y - h_PAmmo1;
+			x_PAmmo2 = x_PAmmo1 - w_PAmmo2;
+			y_PAmmo2 = -y - h_PAmmo2;
 		
+			// FontGetWidthNew
+			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + (2 * TexBox1);
+			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1);
+		
+			w_PAmmo2= FontStringWidth(String.Format("%d", (PAmmo2.maxamount ? PAmmo2.maxamount : 0)), AmmoFont2) + (2 * TexBox1);
+			h_PAmmo2 = h_PAmmo1;
+			
+			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - TexBox1);
+			y_PAmmo1Label = y_PAmmo1 + TexBox1;
+			x_PAmmo2Label = x_PAmmo2 + (w_PAmmo2 - TexBox1);
+			y_PAmmo2Label = y_PAmmo2 + TexBox1;
+		}
+
+		PAmmo1Pos = (x_PAmmo1 , y_PAmmo1) ;
+		PAmmo2Pos = (x_PAmmo2 , y_PAmmo2) ;
+		PAmmo1Size = (w_PAmmo1 , h_PAmmo1) ;
+		PAmmo2Size = (w_PAmmo2 , h_PAmmo2) ;
+		
+		PAmmo1LabelPos = (x_PAmmo1Label , y_PAmmo1Label);
+		PAmmo2LabelPos = (x_PAmmo2Label , y_PAmmo2Label);
 	}
 }

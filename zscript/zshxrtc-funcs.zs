@@ -91,6 +91,11 @@ extend class zsHXRTC_HUD
 		return FontName.mFont.GetHeight();
 	}
 	
+	ui int FontStringWidth(String str, HUDFont FontName)
+	{
+		return FontName.mFont.StringWidth(str);
+	}
+	
 	ui int TexSize(String texname)
 	{
 		TextureID tex = TexMan.CheckForTexture(texname);
@@ -103,7 +108,7 @@ extend class zsHXRTC_HUD
 	}
 	
 	// See https://forum.zdoom.org/viewtopic.php?f=46&t=56148 (Thanks Gutawer)
-	ui void GetCurrentAmmo()
+	ui void GetCurAmmo()
 		{
 		if (p) {
 			for (let inv = pwm.Inv; inv; inv = inv.Inv) {
