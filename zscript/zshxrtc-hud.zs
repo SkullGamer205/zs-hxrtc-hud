@@ -21,9 +21,6 @@ Class zsHXRTC_HUD : BaseStatusBar
 		HXGENERALFONTS = HUDFont.Create("HXGENERALFONTS");
 		HXGENERALFONTM = HUDFont.Create("HXGENERALFONTM");
 		HXCONSOLEFONT  = HUDFont.Create("consolefont");
-		
-		JenocideSmall  = HUDFont.Create("BigFont");
-		
 	}
 	
 	override void Draw (int state, double TicFrac)
@@ -53,12 +50,12 @@ Class zsHXRTC_HUD : BaseStatusBar
 		CacheCvars();
 		if (show_time == true)
 		{
-			Draw9Slice(TimeBoxPos, TimeBoxSize, DI_SCREEN_LEFT_TOP, "HXBOX1", alpha);
+			Draw9Slice(TimeBoxPos, TimeBoxSize, DI_SCREEN_LEFT_TOP, TexBox1, alpha);
 			DrawString(TimeFont, level.TimeFormatted(), TimePos , DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_CENTER, col_par);
 		}
 		if (show_linfo == true)
 		{
-			Draw9Slice(LinfoBoxPos, LinfoBoxSize, DI_SCREEN_LEFT_TOP, "HXBOX1", alpha);
+			Draw9Slice(LinfoBoxPos, LinfoBoxSize, DI_SCREEN_LEFT_TOP, TexBox1, alpha);
 			array<string> LInfoStr = {"KILLS", "ITEMS", "SCRTS"};
 			int LInfoNums[6] = {
 				level.killed_monsters, level.total_monsters,
@@ -69,8 +66,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 			for (int i = 0; i < LInfoStr.Size(); i++)
 			{
 				LinfoStringID = i;
-				LinfoNamePos = ((x_LinfoBox + TexBox1) , (y_LinfoBox + TexBox1 + (FontGetWidth(LinfoFont) + 1) * (LinfoStringID)));
-				LinfoValuePos = ((x_LinfoBox + w_LinfoBox - TexBox1) , (y_LinfoBox + TexBox1 + (FontGetWidth(LinfoFont) + 1) * (LinfoStringID)));
+				LinfoNamePos = ((x_LinfoBox + TexBox1_size) , (y_LinfoBox + TexBox1_size + (FontGetWidth(LinfoFont) + 1) * (LinfoStringID)));
+				LinfoValuePos = ((x_LinfoBox + w_LinfoBox - TexBox1_size) , (y_LinfoBox + TexBox1_size + (FontGetWidth(LinfoFont) + 1) * (LinfoStringID)));
 				DrawString(LinfoFont, LInfoStr[i].."", LinfoNamePos, DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT, LInfoCol[i]);
 				DrawString(LinfoFont, LInfoNums[2*i].." - "..LInfoNums[(2*i)+1], LinfoValuePos, DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_RIGHT, LInfoCol[i]);
 			}
@@ -79,7 +76,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 	
 	protected virtual void DrawHPAP (double TicFrac)
 	{
-		Draw9Slice(HealthBoxPos, HealthBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha);
+		Draw9Slice(HealthBoxPos, HealthBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox1, alpha);
 		array <int> HealthCol = {col_ap, col_hp};
 		array<string> HealthStr = {"ARMOUR", "HEALTH"};
 		int HealthNums[4] = {
@@ -90,8 +87,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 		for (int i = 0; i < HealthStr.Size(); i++)
 		{
 			HealthStringID = i;
-			x_NamePos = x_HealthBox + TexBox1;
-			y_NamePos = -(y + TexBox1) - (FontGetWidth(HPFont1)) * (HealthStringID + 1);
+			x_NamePos = x_HealthBox + TexBox1_size;
+			y_NamePos = -(y + TexBox1_size) - (FontGetWidth(HPFont1)) * (HealthStringID + 1);
 			
 			x_BarPos = x_NamePos + (6 * (FontGetWidth(HPFont1)) + 2);
 			y_BarPos = y_NamePos;
@@ -111,7 +108,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 	
 	protected virtual void DrawMugshot (double TicFrac)
 	{
-		Draw9Slice(MugPos, MugSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX1", alpha);
+		Draw9Slice(MugPos, MugSize, DI_SCREEN_LEFT_BOTTOM, TexBox1, alpha);
 		DrawTexture(GetMugShot(5), MugPos2, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_CENTER);
 	}
 	
@@ -120,7 +117,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 		// Current (Selected)
 		pinvsel = pwm.InvSel;
 		if (pinvsel != NULL) {
-			Draw9Slice(InvCurPos, InvCurSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+			Draw9Slice(InvCurPos, InvCurSize, DI_SCREEN_LEFT_BOTTOM, TexBox2, alpha);
 			Draw9Slice(InvCBordPos, InvCBordSize, DI_SCREEN_LEFT_BOTTOM, "HXSEL", alpha);
 			DrawInventoryIcon(pinvsel, CurIconPos, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_HCENTER);
 			if (pinvsel.Amount > 1) {
@@ -138,8 +135,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 	{	
 		let ArmorType = pwm.FindInventory("BasicArmor");	
 		let ArmorIcon = ArmorType.icon;
-		double ArmorIconSize = (SmallBox - (2 * TexBox2));
-		Draw9Slice(ArmIcoBoxPos, ArmIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+		double ArmorIconSize = (SmallBox - (2 * TexBox2_size));
+		Draw9Slice(ArmIcoBoxPos, ArmIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox2, alpha);
 		if (PArmor != 0)
 		{
 			DrawTexture(ArmorIcon, ArmIconPos, DI_ITEM_CENTER, scale:Scale2Box(ArmorIcon, ArmorIconSize));
@@ -148,7 +145,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 	
 	protected virtual void DrawArmorPercentBox (double TicFrac)
 	{
-		Draw9Slice(ArmPercBoxPos, ArmPercBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+		Draw9Slice(ArmPercBoxPos, ArmPercBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox2, alpha);
 		if (PArmor > 0)
 			{
 				DrawString(ArmFont, PArmorPercent.."", ArmPercNumPos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
@@ -159,7 +156,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 	protected virtual void DrawBerserkBox (double TicFrac)
 	{
 		let berserk_status = pwm.FindInventory("PowerStrength");
-		Draw9Slice(BskIcoBoxPos, BskIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, "HXBOX2", alpha);
+		Draw9Slice(BskIcoBoxPos, BskIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox2, alpha);
 		DrawImage(berserk_status? "HXBERSRK" : "HXHEALTH", BskIconPos , DI_ITEM_CENTER);
 	}
 	
@@ -168,11 +165,18 @@ Class zsHXRTC_HUD : BaseStatusBar
 		ownedAmmo.Clear();
 		GetCurAmmo();
 		if (ownedAmmo.Size() > 0) {
-			Draw9Slice(AllAmmoBoxPos, AllAmmoBoxSize, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+			Draw9Slice(AllAmmoBoxPos, AllAmmoBoxSize, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
 			for (int i = 0; i < ownedAmmo.Size(); i++) {
 				int AmmoAmount =ownedAmmo[i].Amount;
 				int AmmoMaxAmount = ownedAmmo[i].MaxAmount;
+				Ammo PAmmo = ownedAmmo[i];
+				TextureID PAmmoIcon = GetInventoryIcon(PAmmo, 0);
+				int AmmoIconSize = FontStringWidth("0", AmmoFont1);
+				Vector2 AllAmmoBoxIconPos = (x_AllAmmoBox + TexBox1_size, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
+				Vector2 AllAmmoBoxBarPos = (x_AllAmmoBox + TexBox1_size + 8 + 2, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				Vector2 AllAmmoBoxLabelPos = (x_AllAmmoBoxLabel, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
+				DrawInventoryIcon(PAmmo, AllAmmoBoxIconPos, DI_ITEM_LEFT_TOP, scale:Scale2Box(PAmmoIcon, TexBox1_size));
+				DrawBar("HXHABROK", "HXHABRBG", PAmmo.amount, PAmmo.maxamount, AllAmmoBoxBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
 				DrawString(AmmoFont1, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			}
 		}
@@ -194,7 +198,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 		if ((PAmmo1 && !PAmmo2) || (!PAmmo1 && PAmmo2) || (PAmmo1 == PAmmo2))
 		{
 			Ammo PAmmo = PAmmo1 ? PAmmo1 : PAmmo2;
-			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
 			DrawString(AmmoFont2, PAmmo.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			DrawBar("HXAMBROK", "HXAMBRBG", PAmmo.amount, PAmmo.maxamount, PAmmo1BarPos, 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
 			// PAmmo1BarPos
@@ -203,8 +207,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 		
 		else
 		{		
-			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
-			Draw9Slice(PAmmo2Pos, PAmmo2Size, DI_SCREEN_RIGHT_BOTTOM, "HXBOX1", alpha);
+			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
+			Draw9Slice(PAmmo2Pos, PAmmo2Size, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
 			DrawString(AmmoFont2, PAmmo1.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			DrawString(AmmoFont2, PAmmo2.amount.."" , PAmmo2LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			DrawBar("HXAMBROK", "HXAMBRBG", PAmmo1.amount, PAmmo1.maxamount, PAmmo1BarPos, 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);

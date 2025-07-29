@@ -24,7 +24,8 @@ extend class zsHXRTC_HUD
 	CVar HUD_alpha;
 	
 	// TexBoxes
-	int TexBox1, TexBox2, TexBox3;
+	string TexBox0, TexBox1, TexBox2;
+	int TexBox0_size, TexBox1_size, TexBox2_size;
 	
 	// TimeBox
 	bool show_time;
@@ -202,15 +203,20 @@ extend class zsHXRTC_HUD
 		x = w_deathzone.GetInt();
 		y = h_deathzone.GetInt();
 		alpha = HUD_alpha.GetFloat() / 100;
-		TexBox1 = TexSize("HXBOX11");
-		TexBox2 = TexSize("HXBOX21");
-		TexBox3 = TexSize("HXBOX31");
+		
+		TexBox0 = "HXBOX0";
+		TexBox1 = "HXBOX1";
+		TexBox2 = "HXBOX2";
+		
+		TexBox0_size = TexSize(TexBox0.."1");
+		TexBox1_size = TexSize(TexBox1.."1");
+		TexBox2_size = TexSize(TexBox2.."1");
 			
 		// Level Info Vars
 		show_time  = HX_ShowTime.GetBool();
 		show_linfo = HX_ShowLinfo.GetBool();
-		w_TimeBox = FontStringWidth(level.TimeFormatted(), TimeFont) + (2 * TexBox1);
-		h_TimeBox = FontGetWidth(TimeFont) + 1.5 * TexBox1;
+		w_TimeBox = FontStringWidth(level.TimeFormatted(), TimeFont) + (2 * TexBox1_size);
+		h_TimeBox = FontGetWidth(TimeFont) + 1.5 * TexBox1_size;
 		x_TimeBox = x;	
 		TimeBoxPos = (x_TimeBox, y_TimeBox);
 		TimeBoxSize = (w_TimeBox, h_TimeBox);
@@ -218,7 +224,7 @@ extend class zsHXRTC_HUD
 		
 		x_LinfoBox = x_TimeBox;
 		y_LinfoBox = y_TimeBox + h_TimeBox;
-		w_LinfoBox = w_TimeBox; h_LinfoBox = ((2 * TexBox1) + (3 * (FontGetWidth(LinfoFont) + 1) - 1));
+		w_LinfoBox = w_TimeBox; h_LinfoBox = ((2 * TexBox1_size) + (3 * (FontGetWidth(LinfoFont) + 1) - 1));
 		LinfoBoxPos = (x_LinfoBox, y_LinfoBox);
 		LinfoBoxSize = (w_LinfoBox, h_LinfoBox);
 		
@@ -226,13 +232,13 @@ extend class zsHXRTC_HUD
 		PHealth = pwm.Health ;
 		PMaxHealth = pwm.GetMaxHealth(true) ;
 		let ArmorType = pwm.FindInventory("BasicArmor", true);	
-		PArmor = ArmorType.amount;
+		PArmor = ArmorType.amount ? ArmorType.amount : 0;
 		PMaxArmor = ArmorType.MaxAmount;
 		PArmorPercent = basicarmor(ArmorType).SavePercent * 100;
 		
 		BarWidth = TexSize("HXHABROK");
-		w_HealthBox = ((FontStringWidth("HEALTH", HPFont1) + 2) + BarWidth + ( FontStringWidth("999", HPFont2)) + (2 * TexBox1));
-		h_HealthBox = (2 * TexBox1 + (2 * FontGetWidth(HPFont1)) + 1);
+		w_HealthBox = ((FontStringWidth("HEALTH", HPFont1) + 2) + BarWidth + ( FontStringWidth("999", HPFont2)) + (2 * TexBox1_size));
+		h_HealthBox = (2 * TexBox1_size + (2 * FontGetWidth(HPFont1)) + 1);
 		x_HealthBox = x; y_HealthBox = -(y + h_HealthBox);
 		HealthBoxPos = (x_HealthBox, y_HealthBox);
 		HealthBoxSize = (w_HealthBox, h_HealthBox);
@@ -250,19 +256,19 @@ extend class zsHXRTC_HUD
 		
 		// Current Inventory
 		w_InvCur = MugBox;
-		h_InvCur = 32 + (2 * TexBox2);
+		h_InvCur = 32 + (2 * TexBox2_size);
 		x_InvCur = x_MugBox;
 		y_InvCur = y_MugBox - h_InvCur;
-		x_InvCount = x_InvCur + w_InvCur - (TexBox2 * 2);
-		y_InvCount = y_InvCur + (h_InvCur - ((2 * TexBox2) + FontGetWidth(InvFont)));
+		x_InvCount = x_InvCur + w_InvCur - (TexBox2_size * 2);
+		y_InvCount = y_InvCur + (h_InvCur - ((2 * TexBox2_size) + FontGetWidth(InvFont)));
 		
 		InvCurPos = (x_InvCur , y_InvCur);
 		InvCurSize = (w_InvCur , h_InvCur);
-		InvCBordPos = (x_InvCur + TexBox2 , y_InvCur + TexBox2);
-		InvCBordSize = (w_InvCur - (2 * TexBox2)  , h_InvCur - (2 * TexBox2));
+		InvCBordPos = (x_InvCur + TexBox2_size , y_InvCur + TexBox2_size);
+		InvCBordSize = (w_InvCur - (2 * TexBox2_size)  , h_InvCur - (2 * TexBox2_size));
 		InvCountPos = (x_InvCount , y_InvCount);
-		CurIconPos = (x_InvCur + (w_InvCur / 2) , y_InvCur + (h_InvCur - TexBox2 - 2));;
-		CurIconSize = (h_InvCur - (2 * TexBox2) - 2);
+		CurIconPos = (x_InvCur + (w_InvCur / 2) , y_InvCur + (h_InvCur - TexBox2_size - 2));;
+		CurIconSize = (h_InvCur - (2 * TexBox2_size) - 2);
 		
 		// Inventory Bar
 		x_InvBar = 0;
@@ -278,12 +284,12 @@ extend class zsHXRTC_HUD
 		h_ArmIcoBox = SmallBox;
 		
 		w_ArmPercBox = w_ArmIcoBox;
-		h_ArmPercBox = FontGetWidth(ArmFont) + (2 * TexBox2);
+		h_ArmPercBox = FontGetWidth(ArmFont) + (2 * TexBox2_size);
 		x_ArmPercBox = x_ArmIcoBox;
 		y_ArmPercBox = y_ArmIcoBox - h_ArmPercBox;
-		x_ArmPercNum = x_ArmPercBox + TexBox2 + FontStringWidth("100", ArmFont);
-		y_ArmPercNum = y_ArmPercBox + TexBox2;
-		x_ArmPercent = x_ArmPercBox + w_ArmPercBox - TexBox2;
+		x_ArmPercNum = x_ArmPercBox + TexBox2_size + FontStringWidth("100", ArmFont);
+		y_ArmPercNum = y_ArmPercBox + TexBox2_size;
+		x_ArmPercent = x_ArmPercBox + w_ArmPercBox - TexBox2_size;
 		y_ArmPercent = y_ArmPercNum;
 		
 		x_ArmIcon = x_ArmIcoBox + (SmallBox / 2);
@@ -312,9 +318,9 @@ extend class zsHXRTC_HUD
 		
 		// All Ammo	
 		x_AllAmmoBox = -(x + w_AllAmmoBox); y_AllAmmoBox = -(y + h_AllAmmoBox);
-		x_AllAmmoBoxLabel = -(x + TexBox1); y_AllAmmoBoxLabel = -(y + TexBox1); 
-		w_AllAmmoBox = (FontStringWidth("999", AmmoFont1) + 2) + BarWidth + (2 + 8) + (2 * TexBox1); 
-		h_AllAmmoBox = ((FontGetWidth(AmmoFont1) + 1) * ownedAmmo.Size() + (TexBox1 * 2) - 1);
+		x_AllAmmoBoxLabel = -(x + TexBox1_size); y_AllAmmoBoxLabel = -(y + TexBox1_size); 
+		w_AllAmmoBox = (FontStringWidth("999", AmmoFont1) + 2) + BarWidth + (2 + 8) + (2 * TexBox1_size); 
+		h_AllAmmoBox = ((FontGetWidth(AmmoFont1) + 1) * ownedAmmo.Size() + (TexBox1_size * 2) - 1);
 		AllAmmoBoxSize = (w_AllAmmoBox, h_AllAmmoBox);
 		AllAmmoBoxPos = (x_AllAmmoBox, y_AllAmmoBox);	
 		
@@ -331,14 +337,14 @@ extend class zsHXRTC_HUD
 			x_PAmmo1 = x_AllAmmoBox - w_PAmmo1;
 			y_PAmmo1 = -y - h_PAmmo1;
 			
-			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + CurAmmoBarWidth + (2 * TexBox1);
-			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1) + 2;
+			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + (2 * TexBox1_size);
+			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1_size) + 2;
 			
-			x_PAmmo1Bar = x_PAmmo1 + TexBox1 - 2;
-			y_PAmmo1Bar = y_PAmmo1 + TexBox1 - 2;
+			x_PAmmo1Bar = x_PAmmo1 + TexBox1_size - 2;
+			y_PAmmo1Bar = y_PAmmo1 + TexBox1_size - 2;
 			
-			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - TexBox1);
-			y_PAmmo1Label = y_PAmmo1 + TexBox1;
+			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - (TexBox1_size - 1));
+			y_PAmmo1Label = y_PAmmo1 + TexBox1_size - 2;
 		}
 		else
 		{
@@ -348,21 +354,21 @@ extend class zsHXRTC_HUD
 			y_PAmmo2 = -y - h_PAmmo2;
 		
 			// FontGetWidthNew
-			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + CurAmmoBarWidth + (2 * TexBox1);
-			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1) + 2;
+			w_PAmmo1= FontStringWidth(String.Format("%d", (PAmmo1.maxamount ? PAmmo1.maxamount : 0)), AmmoFont2) + (2 * TexBox1_size);
+			h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1_size) + 2;
 		
-			w_PAmmo2= FontStringWidth(String.Format("%d", (PAmmo2.maxamount ? PAmmo2.maxamount : 0)), AmmoFont2) + CurAmmoBarWidth + (2 * TexBox1);
+			w_PAmmo2= FontStringWidth(String.Format("%d", (PAmmo2.maxamount ? PAmmo2.maxamount : 0)), AmmoFont2) + (2 * TexBox1_size);
 			h_PAmmo2 = h_PAmmo1;
 			
-			x_PAmmo1Bar = x_PAmmo1 + TexBox1 - 2;
-			y_PAmmo1Bar = y_PAmmo1 + TexBox1 - 2;
-			x_PAmmo2Bar = x_PAmmo2 + TexBox1 - 2;
-			y_PAmmo2Bar = y_PAmmo2 + TexBox1 - 2;
+			x_PAmmo1Bar = x_PAmmo1 + TexBox1_size - 2;
+			y_PAmmo1Bar = y_PAmmo1 + TexBox1_size - 2;
+			x_PAmmo2Bar = x_PAmmo2 + TexBox1_size - 2;
+			y_PAmmo2Bar = y_PAmmo2 + TexBox1_size - 2;
 			
-			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - TexBox1);
-			y_PAmmo1Label = y_PAmmo1 + TexBox1;
-			x_PAmmo2Label = x_PAmmo2 + (w_PAmmo2 - TexBox1);
-			y_PAmmo2Label = y_PAmmo2 + TexBox1;
+			x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - (TexBox1_size - 1));
+			y_PAmmo1Label = y_PAmmo1 + TexBox1_size - 2;
+			x_PAmmo2Label = x_PAmmo2 + (w_PAmmo2 - (TexBox1_size - 1));
+			y_PAmmo2Label = y_PAmmo2 + TexBox1_size - 2;
 		}
 
 		PAmmo1Pos = (x_PAmmo1 , y_PAmmo1) ;
