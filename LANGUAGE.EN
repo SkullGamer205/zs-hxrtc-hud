@@ -1,9 +1,11 @@
 [enu eng en default]
 
 ZSHXRTC_HUD_OPTIONS = "ZS-HXRTC HUD Options"			;
-ZSHXRTC_HUD_VERSION = "v2025.07.01 | DEV"				;
-
-ZSHXRTC_HUD_GENERAL_OPTIONS = "- - - - - General Options - - - - -";
+ZSHXRTC_HUD_VERSION = "v2025.08.19 | DEV"				;
+ZSHXRTC_HUD_MODULES	= "Modules Options" ;
+ZSHXRTC_HUD_LINFO_MODULE_OPTIONS = "Level Info" ;
+ZSHXRTC_HUD_GENERAL_OPTIONS = "General Options";
+ZSHXRTC_HUD_APPEARANCE_OPTIONS =  "Appearance Options";
 ZSHXRTC_HUD_LINFO_OPTIONS = "- - - - - Level Info Module - - - - -";
 ZSHXRTC_HUD_HPAP_OPTIONS = "- - - - - HP/AP Module - - - - -";
 
@@ -13,3 +15,6 @@ ZSHXRTC_LINFO_LENGTH = "Level Info length"				;
 ZSHXRTC_DEATH_ZONE_X = "Death zone (Horizontal)"		;
 ZSHXRTC_DEATH_ZONE_Y = "Death zone (Vertical)"			;
 ZSHXRTC_ALPHA		 = "Alpha"							;
+ZSHXRTC_BOX0_TEXTURE = "Box0 Texture"					;
+ZSHXRTC_BOX1_TEXTURE = "Main Texture"					;
+ZSHXRTC_BOX2_TEXTURE = "Secondary Texture"				;

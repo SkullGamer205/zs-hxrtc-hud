@@ -176,7 +176,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 				Vector2 AllAmmoBoxBarPos = (x_AllAmmoBox + TexBox1_size + 8 + 2, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				Vector2 AllAmmoBoxLabelPos = (x_AllAmmoBoxLabel, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				DrawInventoryIcon(PAmmo, AllAmmoBoxIconPos, DI_ITEM_LEFT_TOP, scale:Scale2Box(PAmmoIcon, TexBox1_size));
-				DrawBar("HXHABROK", "HXHABRBG", PAmmo.amount, PAmmo.maxamount, AllAmmoBoxBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
+				DrawBar("HXHAMMOK", "HXHAMMBG", PAmmo.amount, PAmmo.maxamount, AllAmmoBoxBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
 				DrawString(AmmoFont1, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			}
 		}

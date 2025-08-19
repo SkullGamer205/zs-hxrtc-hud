@@ -6,9 +6,14 @@ extend class zsHXRTC_HUD
 				HPFont1, HPFont2, ArmFont, 
 					InvFont, AmmoFont1, AmmoFont2;
 	
+	CVar HX_StatusFont, HX_ConsoleFont, HX_MediumFont, HX_SmallFont;
+	
 	// Colors
 	int col_kills, col_items, col_scrts;
 	int col_hp, col_ap, col_par;
+	
+	// Box
+	CVar HX_Box0, HX_Box1, HX_Box2;
 	
 	// Death Zone
 	int x, y;
@@ -122,6 +127,7 @@ extend class zsHXRTC_HUD
 	
 	// Ammo	
 	// List Ammo
+	int AmmoBarWidth;
 	Array<Ammo> ownedAmmo;
 	int curAmmoIndex;
 	float x_AllAmmoBox, y_AllAmmoBox,
@@ -171,6 +177,25 @@ extend class zsHXRTC_HUD
 			w_deathzone = CVar.GetCVar('hxrtc_death_zone_x', p);
 		if (!h_deathzone)
 			h_deathzone = CVar.GetCVar('hxrtc_death_zone_y', p);
+		if (!HX_Box0)
+			HX_Box0 = CVar.GetCVar('hxrtc_box0', p);
+		if (!HX_Box1)
+			HX_Box1 = CVar.GetCVar('hxrtc_box1', p);
+		if (!HX_Box2)
+			HX_Box2 = CVar.GetCVar('hxrtc_box2', p);
+		if (!HX_StatusFont)
+			HX_StatusFont = CVar.GetCVar('hxrtc_font0', p);
+		if (!HX_ConsoleFont)
+			HX_ConsoleFont = CVar.GetCVar('hxrtc_font1', p);
+		if (!HX_MediumFont)
+			HX_MediumFont = CVar.GetCVar('hxrtc_font2', p);
+		if (!HX_SmallFont)
+			HX_SmallFont = CVar.GetCVar('hxrtc_font3', p);
+			
+		// Box
+		TexBox0 = HX_Box0.GetString();
+		TexBox1 = HX_Box1.GetString();
+		TexBox2 = HX_Box2.GetString();
 			
 		if (show_time == true)
 		{ y_TimeBox = y; }
@@ -203,10 +228,6 @@ extend class zsHXRTC_HUD
 		x = w_deathzone.GetInt();
 		y = h_deathzone.GetInt();
 		alpha = HUD_alpha.GetFloat() / 100;
-		
-		TexBox0 = "HXBOX0";
-		TexBox1 = "HXBOX1";
-		TexBox2 = "HXBOX2";
 		
 		TexBox0_size = TexSize(TexBox0.."1");
 		TexBox1_size = TexSize(TexBox1.."1");
@@ -317,9 +338,10 @@ extend class zsHXRTC_HUD
 		BskIconPos = (x_BskIcon, y_BskIcon);
 		
 		// All Ammo	
+		AmmoBarWidth = TexSize("HXHAMMOK");
 		x_AllAmmoBox = -(x + w_AllAmmoBox); y_AllAmmoBox = -(y + h_AllAmmoBox);
 		x_AllAmmoBoxLabel = -(x + TexBox1_size); y_AllAmmoBoxLabel = -(y + TexBox1_size); 
-		w_AllAmmoBox = (FontStringWidth("999", AmmoFont1) + 2) + BarWidth + (2 + 8) + (2 * TexBox1_size); 
+		w_AllAmmoBox = (FontStringWidth("999", AmmoFont1) + 2) + AmmoBarWidth + (2 + 8) + (2 * TexBox1_size); 
 		h_AllAmmoBox = ((FontGetWidth(AmmoFont1) + 1) * ownedAmmo.Size() + (TexBox1_size * 2) - 1);
 		AllAmmoBoxSize = (w_AllAmmoBox, h_AllAmmoBox);
 		AllAmmoBoxPos = (x_AllAmmoBox, y_AllAmmoBox);	

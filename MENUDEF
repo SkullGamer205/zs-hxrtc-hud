@@ -1,22 +1,35 @@
 AddOptionMenu "HUDOptions"
 {
 	StaticText " "
-	Submenu "$ZSHXRTC_HUD_OPTIONS", "ZS_HXRTC_Options"
+	Submenu "$ZSHXRTC_HUD_OPTIONS", "ZS_HXRTC_MainOptions"
 }
 
-OptionMenu "ZS_HXRTC_Options"
+OptionMenu "ZS_HXRTC_MainOptions"
 {
 	Title "$ZSHXRTC_HUD_OPTIONS"
-	StaticText "$ZSHXRTC_HUD_VERSION", 1
+	StaticText "$ZSHXRTC_HUD_VERSION", 3
 	StaticText ""
-	StaticText "$ZSHXRTC_HUD_GENERAL_OPTIONS", 3
+	StaticText "$ZSHXRTC_HUD_GENERAL_OPTIONS", 1
+	Submenu "$ZSHXRTC_HUD_APPEARANCE_OPTIONS", "ZS_HXRTC_Appearance"
 	StaticText ""
+	StaticText "$ZSHXRTC_HUD_MODULES", 1
+	Submenu "$ZSHXRTC_HUD_LINFO_MODULE_OPTIONS", "ZS_HXRTC_LInfo_Module"
+}
+
+OptionMenu "ZS_HXRTC_Appearance"
+{
+	Title "$ZSHXRTC_HUD_APPEARANCE_OPTIONS"
 	Slider "$ZSHXRTC_ALPHA", "hxrtc_alpha", 0, 100, 0.1
 	Slider "$ZSHXRTC_DEATH_ZONE_X", "hxrtc_death_zone_x", 0, 128, 1
 	Slider "$ZSHXRTC_DEATH_ZONE_Y", "hxrtc_death_zone_y", 0, 128, 1
-	StaticText ""
-	StaticText "$ZSHXRTC_HUD_LINFO_OPTIONS", 3
-	StaticText ""
+	TextField "$ZSHXRTC_BOX0_TEXTURE", "hxrtc_box0"
+	TextField "$ZSHXRTC_BOX1_TEXTURE", "hxrtc_box1"
+	TextField "$ZSHXRTC_BOX2_TEXTURE", "hxrtc_box2"
+}
+
+OptionMenu "ZS_HXRTC_LInfo_Module"
+{
+	Title "$ZSHXRTC_HUD_LINFO_MODULE_OPTIONS"
 	Option "$ZSHXRTC_SHOW_TIME", "hxrtc_show_time", "OnOff"
 	Option "$ZSHXRTC_SHOW_LINFO", "hxrtc_show_linfo", "OnOff"
 }
