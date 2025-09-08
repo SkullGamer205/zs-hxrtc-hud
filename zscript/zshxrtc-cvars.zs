@@ -162,10 +162,8 @@ extend class zsHXRTC_HUD
 	
 	ui void CacheCvars()
 	{
-		if (!p)
-			p = CPlayer; 
-		if (!pwm)
-			pwm = (p).mo;
+		p = CPlayer; 
+		pwm = p.mo;
 			
 		if (!HX_ShowTime)
 			HX_ShowTime = CVar.GetCVar('hxrtc_show_time', p);
@@ -252,8 +250,8 @@ extend class zsHXRTC_HUD
 		// HP AP Vars
 		PHealth = pwm.Health ;
 		PMaxHealth = pwm.GetMaxHealth(true) ;
-		let ArmorType = pwm.FindInventory("BasicArmor", true);	
-		PArmor = ArmorType.amount ? ArmorType.amount : 0;
+		let ArmorType = BasicArmor(pwm.FindInventory("BasicArmor"));	
+		PArmor = ArmorType.amount;
 		PMaxArmor = ArmorType.MaxAmount;
 		PArmorPercent = basicarmor(ArmorType).SavePercent * 100;
 		
