@@ -44,7 +44,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 			DrawArmorPercentBox(TicFrac);
 			DrawBerserkBox(TicFrac);
 			DrawAmmoInv(TicFrac);
-			// DrawAmmoIcon(TicFrac);
+			DrawWeaponIcon(TicFrac);
 			DrawAmmoCur(TicFrac);
 		}
 	}
@@ -190,10 +190,12 @@ Class zsHXRTC_HUD : BaseStatusBar
 		}
 	}
 	
-    protected virtual void DrawAmmoIcon(double TicFrac)
+    protected virtual void DrawWeaponIcon(double TicFrac)
     {
-        if (CPlayer.ReadyWeapon) {
-            DrawInventoryIcon(CPlayer.ReadyWeapon, (60, 60), DI_SCREEN_LEFT_TOP);
+        if (p.ReadyWeapon) {
+			TextureID weapIcon = GetInventoryIcon(p.ReadyWeapon, 0);
+			Draw9Slice(WeapIconBoxPos, WeapIconBoxSize, DI_SCREEN_RIGHT_BOTTOM, TexBox2, alpha);
+            DrawTexture(weapIcon, WeapIconPos, DI_SCREEN_RIGHT_BOTTOM | DI_ITEM_CENTER, scale:Scale2Box(weapIcon, h_WeapIconBox));
         }
     }
 	

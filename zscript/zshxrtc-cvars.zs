@@ -149,6 +149,15 @@ extend class zsHXRTC_HUD
 	Vector2 PAmmo1LabelPos, PAmmo2LabelPos;
 	Vector2 PAmmo1BarPos, PAmmo2BarPos;
 	
+	// Weapon Icon
+	//w44h20
+	float x_WeapIconBox, y_WeapIconBox;
+	float w_WeapIconBox, h_WeapIconBox;
+	float x_WeapIcon, y_WeapIcon;
+	
+	Vector2 WeapIconBoxPos, WeapIconBoxSize;
+	Vector2 WeapIconPos;
+	
     ui void CacheCvars()
     {
         p = CPlayer; 
@@ -355,10 +364,19 @@ extend class zsHXRTC_HUD
         [PAmmo1, PAmmo2] = GetCurrentAmmo();
         
         if (!PAmmo1 && !PAmmo2) {
-            return;
-        }
-        
-        if ((PAmmo1 && !PAmmo2) || (!PAmmo1 && PAmmo2) || (PAmmo1 == PAmmo2)) {
+            Ammo PAmmo = PAmmo1 ? PAmmo1 : PAmmo2;
+            w_PAmmo1 = 0;
+            h_PAmmo1 = 0;
+            
+            x_PAmmo1 = x_AllAmmoBox - w_PAmmo1;
+            y_PAmmo1 = -y - h_PAmmo1;
+            
+            x_PAmmo1Bar = x_PAmmo1 + TexBox1_size - 2;
+            y_PAmmo1Bar = y_PAmmo1 + TexBox1_size - 2;
+            
+            x_PAmmo1Label = x_PAmmo1 + (w_PAmmo1 - (TexBox1_size - 1));
+            y_PAmmo1Label = y_PAmmo1 + TexBox1_size - 2;
+        } else if ((PAmmo1 && !PAmmo2) || (!PAmmo1 && PAmmo2) || (PAmmo1 == PAmmo2)) {
             Ammo PAmmo = PAmmo1 ? PAmmo1 : PAmmo2;
             w_PAmmo1 = FontStringWidth(String.Format("%d", (PAmmo.maxamount ? PAmmo.maxamount : 0)), AmmoFont2) + (2 * TexBox1_size);
             h_PAmmo1 = (FontGetWidth(AmmoFont2) + 1) + (2 * TexBox1_size) + 2;
@@ -402,5 +420,20 @@ extend class zsHXRTC_HUD
         PAmmo2BarPos = (x_PAmmo2Bar, y_PAmmo2Bar);
         PAmmo1LabelPos = (x_PAmmo1Label, y_PAmmo1Label);
         PAmmo2LabelPos = (x_PAmmo2Label, y_PAmmo2Label);
+		
+		// Weapon Icon
+		w_WeapIconBox = (44);
+		h_WeapIconBox = (20);
+		
+		x_WeapIconBox = (x_AllAmmoBox - w_WeapIconBox);
+		y_WeapIconBox = (y_PAmmo1 - h_WeapIconBox);
+		
+		x_WeapIcon = (x_AllAmmoBox - (w_WeapIconBox / 2));
+		y_WeapIcon = (y_PAmmo1 - (h_WeapIconBox / 2));
+		
+		WeapIconBoxPos = (x_WeapIconBox, y_WeapIconBox);
+		WeapIconBoxSize = (w_WeapIconBox, h_WeapIconBox);
+		WeapIconPos = (x_WeapIcon, y_WeapIcon);
+		
     }
 }
