@@ -1,3 +1,4 @@
+// Utility functions for HXRTC HUD System
 extend class zsHXRTC_HUD
 {
 	// HUGE THANKS TO Agent_Ash!!!
@@ -52,94 +53,106 @@ extend class zsHXRTC_HUD
 		double s = BoxSize / LongSide;
 		return (s,s);
 	}
-
-	ui int GetColor(float value1, float value2 , int numColors, array<int> colors)
-	{
-		int out_color;	
-		
-		if (value1 <= 0) {
-			return colors[0];
-		}
-		
-		if (numColors == 1) {
-			if (value1 < value2) {
-			//Console.Printf("%d / %d", value1, value2);
-			return colors[1];
-			}
-			if (value1 >= value2) {
-			return colors[2];
-			}
-		}
-		
-		for (int i = 1; i <= numColors; i++) {
-			float value3 = ((value2 / numColors) * i) ;
-			if (value1 <= value3) {
-				out_color = colors[i];
-				// Console.Printf("%d / %f / %d :: %d :: %d | NumColors:: %d", value1, value3 , value2, i - 1, out_color, numColors);
-				break;
-			}
-		}
-		
-		if (value1 > value2) {
-			out_color = colors[numColors + 1];
-		}
-		return out_color;
-	}
-
-	ui int FontGetWidth(HUDFont FontName)
-	{
-		return FontName.mFont.GetHeight();
-	}
 	
-	ui int FontStringWidth(String str, HUDFont FontName)
-	{
-		return FontName.mFont.StringWidth(str);
-	}
+    ui int GetColor(float value1, float value2, int numColors, array<int> colors)
+    {
+        if (colors.Size() < numColors + 2) return Font.CR_WHITE;
+        
+        if (value1 <= 0) {
+            return colors[0];
+        }
+        
+        if (numColors == 1) {
+            if (value1 < value2) {
+                return colors[1];
+            }
+            if (value1 >= value2) {
+                return colors[2];
+            }
+        }
+        
+        for (int i = 1; i <= numColors; i++) {
+            float value3 = ((value2 / numColors) * i);
+            if (value1 <= value3) {
+                return colors[i];
+            }
+        }
+        
+        if (value1 > value2) {
+            return colors[numColors + 1];
+        }
+        
+        return Font.CR_WHITE;
+    }
+
+    ui int FontGetWidth(HUDFont FontName)
+    {
+        if (!FontName || !FontName.mFont) return 0;
+        return FontName.mFont.GetHeight();
+    }
 	
-	ui int TexSize(String texname)
-	{
-		TextureID tex = TexMan.CheckForTexture(texname);
-		return TexMan.GetSize(tex);
-	}
+    ui int FontStringWidth(String str, HUDFont FontName)
+    {
+        if (!FontName || !FontName.mFont) return 0;
+        return FontName.mFont.StringWidth(str);
+    }
+	
+    ui int TexSize(String texname)
+    {
+        TextureID tex = TexMan.CheckForTexture(texname);
+        if (!tex.IsValid()) return 0;
+        return TexMan.GetSize(tex);
+    }
 	
 	clearscope int TicsConvert(int tics){
 	int totalSeconds = tics / TICRATE;
 	return totalSeconds;
 	}
-	
-	// See https://forum.zdoom.org/viewtopic.php?f=46&t=56148 (Thanks Gutawer)
-	ui void GetCurAmmo()
-		{
-		if (p) {
-			for (let inv = pwm.Inv; inv; inv = inv.Inv) {
-				// [argv] look through the player pawn's inventory for weapons
-				if (inv is "Weapon") {
-					// [argv] take each ammo item, and add it to ownedAmmo if not already present
-					let ammo = Weapon(inv).Ammo1;
-					if (ammo && ownedAmmo.Size() == ownedAmmo.Find(ammo)) {
-						ownedAmmo.Push(ammo);
-					}
-					
-					ammo = Weapon(inv).Ammo2;
-					if (ammo && ownedAmmo.Size() == ownedAmmo.Find(ammo)) {
-						ownedAmmo.Push(ammo);
-					}
-				}
-			}
-		}
-				for (int i = 0; i < ownedAmmo.Size(); i++) {
-					if (p.ReadyWeapon) {
-						if (p.ReadyWeapon.Ammo1 == ownedAmmo[i]) {
-							curAmmoIndex = i;
-							break;
-						}
-						else if (p.ReadyWeapon.Ammo1 == NULL &&
-								 p.ReadyWeapon.Ammo2 == ownedAmmo[i]) {
-							curAmmoIndex = i;
-							break;
-						}
-					}
-				}
-		}
 
+    // Get current weapon's ammo types
+    ui Ammo, Ammo GetCurrentAmmo()
+    {
+        if (!CPlayer || !CPlayer.ReadyWeapon) {
+            return null, null;
+        }
+        
+        Weapon curWeapon = CPlayer.ReadyWeapon;
+        return curWeapon.Ammo1, curWeapon.Ammo2;
+    }
+
+ // See https://forum.zdoom.org/viewtopic.php?f=46&t=56148 (Thanks Gutawer)
+    ui void GetInvAmmo()
+    {
+        if (!p || !pwm) return;
+        
+        for (let inv = pwm.Inv; inv; inv = inv.Inv) {
+            // [argv] look through the player pawn's inventory for weapons
+            if (inv is "Weapon") {
+                // [argv] take each ammo item, and add it to ownedAmmo if not already present
+                let ammo = Weapon(inv).Ammo1;
+                if (ammo && ownedAmmo.Size() == ownedAmmo.Find(ammo)) {
+                    ownedAmmo.Push(ammo);
+                }
+                
+                ammo = Weapon(inv).Ammo2;
+                if (ammo && ownedAmmo.Size() == ownedAmmo.Find(ammo)) {
+                    ownedAmmo.Push(ammo);
+                }
+            }
+        }
+        
+        for (int i = 0; i < ownedAmmo.Size(); i++) {
+            if (p.ReadyWeapon) {
+                if (p.ReadyWeapon.Ammo1 == ownedAmmo[i]) {
+                    curAmmoIndex = i;
+                    break;
+                }
+                else if (p.ReadyWeapon.Ammo1 == NULL &&
+                         p.ReadyWeapon.Ammo2 == ownedAmmo[i]) {
+                    curAmmoIndex = i;
+                    break;
+                }
+            }
+        }
+    }
 }

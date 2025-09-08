@@ -163,7 +163,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 	protected virtual void DrawAmmoInv (double TicFrac)
 	{
 		ownedAmmo.Clear();
-		GetCurAmmo();
+		GetInvAmmo();
 		if (ownedAmmo.Size() > 0) {
 			Draw9Slice(AllAmmoBoxPos, AllAmmoBoxSize, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
 			for (int i = 0; i < ownedAmmo.Size(); i++) {
