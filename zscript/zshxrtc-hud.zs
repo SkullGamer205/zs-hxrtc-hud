@@ -4,6 +4,8 @@ Class zsHXRTC_HUD : BaseStatusBar
 	PlayerPawn pwm;
 	Inventory pinvsel;
 	InventoryBarState pinv;
+	
+	// Fonts
 	HUDFont HXINDEXFONTM;
 	HUDFont HXSTATUSFONT;
 	HUDFont HXGENERALFONTS;
@@ -26,6 +28,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 	override void Draw (int state, double TicFrac)
 	{
 		Super.Draw (state, TicFrac);
+		
 		if (state == HUD_StatusBar)
 		{
 			BeginStatusBar();
