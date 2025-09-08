@@ -44,6 +44,7 @@ Class zsHXRTC_HUD : BaseStatusBar
 			DrawArmorPercentBox(TicFrac);
 			DrawBerserkBox(TicFrac);
 			DrawAmmoInv(TicFrac);
+			// DrawAmmoIcon(TicFrac);
 			DrawAmmoCur(TicFrac);
 		}
 	}
@@ -134,17 +135,17 @@ Class zsHXRTC_HUD : BaseStatusBar
 		}
 	}
 	
-	protected virtual void DrawArmorBox (double TicFrac)
-	{	
-		let ArmorType = pwm.FindInventory("BasicArmor");	
-		let ArmorIcon = ArmorType.icon;
-		double ArmorIconSize = (SmallBox - (2 * TexBox2_size));
-		Draw9Slice(ArmIcoBoxPos, ArmIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox2, alpha);
-		if (PArmor != 0)
-		{
-			DrawTexture(ArmorIcon, ArmIconPos, DI_ITEM_CENTER, scale:Scale2Box(ArmorIcon, ArmorIconSize));
-		}
-	}
+    protected virtual void DrawArmorBox(double TicFrac)
+    {
+        let ArmorType = pwm.FindInventory("BasicArmor");
+        Draw9Slice(ArmIcoBoxPos, ArmIcoBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox2, alpha);
+        
+        if (PArmor != 0 && ArmorType) {
+            let ArmorIcon = ArmorType.icon;
+            double ArmorIconSize = (SmallBox - (2 * TexBox2_size));
+            DrawTexture(ArmorIcon, ArmIconPos, DI_ITEM_CENTER, scale:Scale2Box(ArmorIcon, ArmorIconSize));
+        }
+    }
 	
 	protected virtual void DrawArmorPercentBox (double TicFrac)
 	{
@@ -167,17 +168,21 @@ Class zsHXRTC_HUD : BaseStatusBar
 	{
 		ownedAmmo.Clear();
 		GetInvAmmo();
+		
 		if (ownedAmmo.Size() > 0) {
 			Draw9Slice(AllAmmoBoxPos, AllAmmoBoxSize, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
+			
 			for (int i = 0; i < ownedAmmo.Size(); i++) {
 				int AmmoAmount =ownedAmmo[i].Amount;
 				int AmmoMaxAmount = ownedAmmo[i].MaxAmount;
 				Ammo PAmmo = ownedAmmo[i];
 				TextureID PAmmoIcon = GetInventoryIcon(PAmmo, 0);
 				int AmmoIconSize = FontStringWidth("0", AmmoFont1);
+				
 				Vector2 AllAmmoBoxIconPos = (x_AllAmmoBox + TexBox1_size, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				Vector2 AllAmmoBoxBarPos = (x_AllAmmoBox + TexBox1_size + 8 + 2, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				Vector2 AllAmmoBoxLabelPos = (x_AllAmmoBoxLabel, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
+				
 				DrawInventoryIcon(PAmmo, AllAmmoBoxIconPos, DI_ITEM_LEFT_TOP, scale:Scale2Box(PAmmoIcon, TexBox1_size));
 				DrawBar("HXHAMMOK", "HXHAMMBG", PAmmo.amount, PAmmo.maxamount, AllAmmoBoxBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
 				DrawString(AmmoFont1, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
@@ -185,31 +190,28 @@ Class zsHXRTC_HUD : BaseStatusBar
 		}
 	}
 	
-	protected virtual void DrawAmmoIcon (double TicFrac)
-	{
-		DrawInventoryIcon(CPlayer.ReadyWeapon, (60, 60), DI_SCREEN_LEFT_TOP);
-	}
+    protected virtual void DrawAmmoIcon(double TicFrac)
+    {
+        if (CPlayer.ReadyWeapon) {
+            DrawInventoryIcon(CPlayer.ReadyWeapon, (60, 60), DI_SCREEN_LEFT_TOP);
+        }
+    }
 	
 	protected virtual void DrawAmmoCur (double TicFrac)
 	{
 		CacheCvars();
-		if (!PAmmo1 && !PAmmo2)
-		{
+		if (!PAmmo1 && !PAmmo2) {
 			return;
 		}
 		
-		if ((PAmmo1 && !PAmmo2) || (!PAmmo1 && PAmmo2) || (PAmmo1 == PAmmo2))
-		{
+		if ((PAmmo1 && !PAmmo2) || (!PAmmo1 && PAmmo2) || (PAmmo1 == PAmmo2)) {
 			Ammo PAmmo = PAmmo1 ? PAmmo1 : PAmmo2;
 			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
 			DrawString(AmmoFont2, PAmmo.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
 			DrawBar("HXAMBROK", "HXAMBRBG", PAmmo.amount, PAmmo.maxamount, PAmmo1BarPos, 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
 			// PAmmo1BarPos
 			// DrawBar("HXAMBROK", "HXAMBRBG",PAmmo2.amount, PAmmo2.maxamount, (-(x + w_AllAmmoBox + w_Ammo2Box - TexOffset + Offset), -(y + TexOffset - 2)), 0,  SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_BOTTOM | DI_ITEM_LEFT);
-		}
-		
-		else
-		{		
+		} else {		
 			Draw9Slice(PAmmo1Pos, PAmmo1Size, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
 			Draw9Slice(PAmmo2Pos, PAmmo2Size, DI_SCREEN_RIGHT_BOTTOM, TexBox1, alpha);
 			DrawString(AmmoFont2, PAmmo1.amount.."" , PAmmo1LabelPos, DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
@@ -218,5 +220,4 @@ Class zsHXRTC_HUD : BaseStatusBar
 			DrawBar("HXAMBROK", "HXAMBRBG", PAmmo2.amount, PAmmo2.maxamount, PAmmo2BarPos, 0, SHADER_VERT | SHADER_REVERSE, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
 		}
 	}
-	
 }
