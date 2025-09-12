@@ -13,18 +13,32 @@ OptionMenu "ZS_HXRTC_MainOptions"
 	Submenu "$ZSHXRTC_HUD_APPEARANCE_OPTIONS", "ZS_HXRTC_Appearance"
 	StaticText ""
 	StaticText "$ZSHXRTC_HUD_MODULES", 1
+	Submenu "$ZSHXRTC_HUD_HPAP_MODULE_OPTIONS", "ZS_HXRTC_HPAP_Module"
+	Submenu "$ZSHXRTC_HUD_AMMO_MODULE_OPTIONS", "ZS_HXRTC_Ammo_Module"
 	Submenu "$ZSHXRTC_HUD_LINFO_MODULE_OPTIONS", "ZS_HXRTC_LInfo_Module"
 }
 
 OptionMenu "ZS_HXRTC_Appearance"
 {
 	Title "$ZSHXRTC_HUD_APPEARANCE_OPTIONS"
-	Slider "$ZSHXRTC_ALPHA", "hxrtc_alpha", 0, 100, 0.1
+	Slider "$ZSHXRTC_ALPHA", "hxrtc_alpha", 0, 100, 1
 	Slider "$ZSHXRTC_DEATH_ZONE_X", "hxrtc_death_zone_x", 0, 128, 1
 	Slider "$ZSHXRTC_DEATH_ZONE_Y", "hxrtc_death_zone_y", 0, 128, 1
 	TextField "$ZSHXRTC_BOX0_TEXTURE", "hxrtc_box0"
 	TextField "$ZSHXRTC_BOX1_TEXTURE", "hxrtc_box1"
 	TextField "$ZSHXRTC_BOX2_TEXTURE", "hxrtc_box2"
+}
+
+OptionMEnu "ZS_HXRTC_HPAP_Module"
+{
+	Title "$ZSHXRTC_HUD_HPAP_MODULE_OPTIONS"
+	Slider "$ZSHXTRC_MODULE_STYLE", "hxrtc_hpap_style", 0, 1, 1
+}
+
+OptionMEnu "ZS_HXRTC_Ammo_Module"
+{
+	Title "$ZSHXRTC_HUD_AMMO_MODULE_OPTIONS"
+	Slider "$ZSHXTRC_MODULE_STYLE", "hxrtc_ammo_style", 0, 1, 1
 }
 
 OptionMenu "ZS_HXRTC_LInfo_Module"
