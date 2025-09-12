@@ -3,7 +3,7 @@ extend class zsHXRTC_HUD
 
 	// Fonts
 	HUDFont TimeFont, LinfoFont, 
-				HPFont1, HPFont2, ArmFont, 
+				HPFont1, HPFont2, HPFont3, ArmFont, 
 				InvFont, AmmoFont1, AmmoFont2;
 	CVar HX_StatusFont, HX_ConsoleFont, HX_MediumFont, HX_SmallFont;
 	
@@ -52,6 +52,7 @@ extend class zsHXRTC_HUD
 	int PHealth,  PMaxHealth;
 	int PArmor, PMaxArmor, PArmorPercent;
 	int PAirSupply, PAirSupplyMax;
+	CVar HX_HPAPStyle;
 
 	int BarWidth;
 	int HealthStringID;
@@ -178,6 +179,8 @@ extend class zsHXRTC_HUD
             w_deathzone = CVar.GetCVar('hxrtc_death_zone_x', p);
         if (!h_deathzone)
             h_deathzone = CVar.GetCVar('hxrtc_death_zone_y', p);
+        if (!HX_HPAPStyle)
+            HX_HPAPStyle = CVar.GetCVar('hxrtc_hpap_style', p);
         if (!HX_AmmoStyle)
             HX_AmmoStyle = CVar.GetCVar('hxrtc_ammo_style', p);
         if (!HX_Box0)
@@ -224,6 +227,7 @@ extend class zsHXRTC_HUD
         LinfoFont = HXGENERALFONTS;
         HPFont1 = HXGENERALFONTM;
         HPFont2 = HXCONSOLEFONT;
+		HPFont3 = HXSTATUSFONT;
         ArmFont = LinfoFont;
         InvFont = LinfoFont;
         AmmoFont1 = HXGENERALFONTS;
@@ -273,13 +277,24 @@ extend class zsHXRTC_HUD
         col_ap = GetColor(PArmor, PMaxArmor, 4, HPCol);
         
         BarWidth = TexSize("HXHABROK");
-        w_HealthBox = ((FontStringWidth("HEALTH", HPFont1) + 2) + BarWidth + (FontStringWidth("999", HPFont2)) + (2 * TexBox1_size));
-        h_HealthBox = (2 * TexBox1_size + (2 * FontGetWidth(HPFont1)) + 1);
-        x_HealthBox = x;
-        y_HealthBox = -(y + h_HealthBox);
-        HealthBoxPos = (x_HealthBox, y_HealthBox);
+		
+		switch (HX_HPAPStyle.GetInt())
+		{
+		default:
+			w_HealthBox = ((FontStringWidth("HEALTH", HPFont1) + 2) + BarWidth + (FontStringWidth("999", HPFont2)) + (2 * TexBox1_size));
+			h_HealthBox = (2 * TexBox1_size + (2 * FontGetWidth(HPFont1)) + 1);
+			break;
+		case 1:
+			w_HealthBox = FontStringWidth("9999", HPFont3) + (2 * TexBox1_size);
+			h_HealthBox = (FontGetWidth(HPFont3) + 1) + (2 * TexBox1_size) + 2;
+			break;
+        }
+		
+		x_HealthBox = x;
+		y_HealthBox = -(y + h_HealthBox);
+		HealthBoxPos = (x_HealthBox, y_HealthBox);
         HealthBoxSize = (w_HealthBox, h_HealthBox);
-        
+		
         // Mugshot
         MugBox = 46;
         x_MugBox = x_HealthBox;

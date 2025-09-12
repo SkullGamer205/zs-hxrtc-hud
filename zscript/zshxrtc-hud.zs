@@ -80,33 +80,51 @@ Class zsHXRTC_HUD : BaseStatusBar
 	
 	protected virtual void DrawHPAP (double TicFrac)
 	{
-		Draw9Slice(HealthBoxPos, HealthBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox1, alpha);
 		array <int> HealthCol = {col_ap, col_hp};
 		array<string> HealthStr = {"ARMOUR", "HEALTH"};
 		int HealthNums[4] = {
-				PArmor, PMaxArmor,
-				PHealth, PMaxHealth
+			PArmor, PMaxArmor,
+			PHealth, PMaxHealth
 		};
-
-		for (int i = 0; i < HealthStr.Size(); i++)
+		switch (HX_HPAPStyle.GetInt())
 		{
-			HealthStringID = i;
-			x_NamePos = x_HealthBox + TexBox1_size;
-			y_NamePos = -(y + TexBox1_size) - (FontGetWidth(HPFont1)) * (HealthStringID + 1);
+		default: 
+			Draw9Slice(HealthBoxPos, HealthBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox1, alpha);
+
+			for (int i = 0; i < HealthStr.Size(); i++)
+			{
+				HealthStringID = i;
+				x_NamePos = x_HealthBox + TexBox1_size;
+				y_NamePos = -(y + TexBox1_size) - (FontGetWidth(HPFont1)) * (HealthStringID + 1);
 			
-			x_BarPos = x_NamePos + (6 * (FontGetWidth(HPFont1)) + 2);
-			y_BarPos = y_NamePos;
+				x_BarPos = x_NamePos + (6 * (FontGetWidth(HPFont1)) + 2);
+				y_BarPos = y_NamePos;
 		
-			x_ValuePos = x_BarPos + BarWidth + (3 * FontGetWidth(HPFont2));
-			y_ValuePos = y_BarPos - 2;
+				x_ValuePos = x_BarPos + BarWidth + (3 * FontGetWidth(HPFont2));
+				y_ValuePos = y_BarPos - 2;
 			
-			HealthNamePos = (x_NamePos, y_NamePos);
-			HealthBarPos = (x_BarPos, y_BarPos);
-			HealthValuePos = (x_ValuePos, y_ValuePos);
+				HealthNamePos = (x_NamePos, y_NamePos);
+				HealthBarPos = (x_BarPos, y_BarPos);
+				HealthValuePos = (x_ValuePos, y_ValuePos);
 			
-			DrawString(HPFont1, HealthStr[i].."", HealthNamePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
-			DrawBar("HXHABROK", "HXHABRBG", HealthNums[2*i], HealthNums[(2*i)+1], HealthBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
-			DrawString(HPFont2, HealthNums[2*i].."", HealthValuePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, HealthCol[i]);
+				DrawString(HPFont1, HealthStr[i].."", HealthNamePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT);
+				DrawBar("HXHABROK", "HXHABRBG", HealthNums[2*i], HealthNums[(2*i)+1], HealthBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
+				DrawString(HPFont2, HealthNums[2*i].."", HealthValuePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_RIGHT, HealthCol[i]);
+			}
+			break;
+		
+		case 1:
+			for (int i = 0; i <= 1; i++)
+			{
+				x_HealthBox = x + (w_HealthBox * i);
+				HealthBoxPos = (x_HealthBox, y_HealthBox);
+				HealthValuePos = ((x_HealthBox + (w_HealthBox / 2)) , (y_HealthBox + TexBox1_size - 2));
+				HealthNamePos = ((x_HealthBox + (w_HealthBox / 2)) , ((y_HealthBox + h_HealthBox) - (TexBox1_size + FontGetWidth(HPFont1) - 2)));
+				Draw9Slice(HealthBoxPos, HealthBoxSize, DI_SCREEN_LEFT_BOTTOM, TexBox1, alpha);
+				DrawString(HPFont3, HealthNums[(HealthNums.Size()-2)-(2*i)].."", HealthValuePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_CENTER, HealthCol[(HealthCol.Size()-1)-i]);
+				DrawString(HPFont1, HealthStr[(HealthStr.Size()-1)-i].."", HealthNamePos, DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_CENTER);
+			}
+			break;
 		}
 	}
 	
