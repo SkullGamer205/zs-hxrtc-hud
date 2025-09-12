@@ -59,6 +59,22 @@ HXSTATUSFONT
 	NOTRANSLATION 109 // (Don't touch the shadow color!)
 }
 
+// LARGE: Used for current weapon ammo
+HXSTATUSFONT2
+{
+	0 HXTNUM20
+	1 HXTNUM21
+	2 HXTNUM22
+	3 HXTNUM23
+	4 HXTNUM24
+	5 HXTNUM25
+	6 HXTNUM26
+	7 HXTNUM27
+	8 HXTNUM28
+	9 HXTNUM29
+	NOTRANSLATION 109 // (Don't touch the shadow color!)
+}
+
 // SmallFont
 JenocideFontRed
 {
