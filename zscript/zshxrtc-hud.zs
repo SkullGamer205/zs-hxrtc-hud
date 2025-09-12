@@ -179,13 +179,24 @@ Class zsHXRTC_HUD : BaseStatusBar
 				TextureID PAmmoIcon = GetInventoryIcon(PAmmo, 0);
 				int AmmoIconSize = FontStringWidth("0", AmmoFont1);
 				
-				Vector2 AllAmmoBoxIconPos = (x_AllAmmoBox + TexBox1_size, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
+				Vector2 AllAmmoBoxIconPos = ((x_AllAmmoBox + 3) + TexBox1_size, (y_AllAmmoBoxLabel + 3) - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				Vector2 AllAmmoBoxBarPos = (x_AllAmmoBox + TexBox1_size + 8 + 2, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
+				Vector2 AllAmmoBoxCurLabelPos = (x_AllAmmoBoxLabel - (3 * FontGetWidth(AmmoFont1)), y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				Vector2 AllAmmoBoxLabelPos = (x_AllAmmoBoxLabel, y_AllAmmoBoxLabel - FontGetWidth(AmmoFont1) - ((FontGetWidth(AmmoFont1) + 1) * i));
 				
-				DrawInventoryIcon(PAmmo, AllAmmoBoxIconPos, DI_ITEM_LEFT_TOP, scale:Scale2Box(PAmmoIcon, TexBox1_size));
-				DrawBar("HXHAMMOK", "HXHAMMBG", PAmmo.amount, PAmmo.maxamount, AllAmmoBoxBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
-				DrawString(AmmoFont1, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+				switch (HX_AmmoStyle.GetInt())
+				{
+				default: 
+					DrawInventoryIcon(PAmmo, AllAmmoBoxIconPos, DI_ITEM_CENTER, scale:Scale2Box(PAmmoIcon, TexBox1_size));
+					DrawBar("HXHAMMOK", "HXHAMMBG", PAmmo.amount, PAmmo.maxamount, AllAmmoBoxBarPos, 0, SHADER_HORZ, DI_ITEM_LEFT_TOP | DI_ITEM_LEFT);
+					DrawString(AmmoFont1, AmmoAmount.."",AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+					break;
+				case 1:
+					DrawInventoryIcon(PAmmo, AllAmmoBoxIconPos, DI_ITEM_CENTER, scale:Scale2Box(PAmmoIcon, TexBox1_size));
+					//DrawString(AmmoFont1, AmmoAmount.."-",AllAmmoBoxCurLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+					DrawString(AmmoFont1, AmmoAmount.."-"..AmmoMaxAmount, AllAmmoBoxLabelPos , DI_SCREEN_RIGHT_BOTTOM | DI_TEXT_ALIGN_RIGHT);
+					break;
+				}
 			}
 		}
 	}
