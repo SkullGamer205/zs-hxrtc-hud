@@ -1,13 +1,15 @@
 [enu eng en default]
 
 ZSHXRTC_HUD_OPTIONS = "ZS-HXRTC HUD Options"			;
-ZSHXRTC_HUD_VERSION = "v2025.09.08 | DEV"				;
-ZSHXRTC_HUD_MODULES	= "Modules Options" ;
-ZSHXRTC_HUD_LINFO_MODULE_OPTIONS = "Level Info" ;
-ZSHXRTC_HUD_GENERAL_OPTIONS = "General Options";
-ZSHXRTC_HUD_APPEARANCE_OPTIONS =  "Appearance Options";
-ZSHXRTC_HUD_LINFO_OPTIONS = "- - - - - Level Info Module - - - - -";
-ZSHXRTC_HUD_HPAP_OPTIONS = "- - - - - HP/AP Module - - - - -";
+ZSHXRTC_HUD_VERSION = "v2025.09.12 | DEV"				;
+ZSHXRTC_HUD_MODULES	= "Modules Options" 				;
+ZSHXRTC_HUD_HPAP_MODULE_OPTIONS = "Health & Armor"		;
+ZSHXRTC_HUD_AMMO_MODULE_OPTIONS = "Ammo"				;
+ZSHXRTC_HUD_LINFO_MODULE_OPTIONS = "Level Info" 		;
+ZSHXRTC_HUD_GENERAL_OPTIONS = "General Options"			;
+ZSHXRTC_HUD_APPEARANCE_OPTIONS =  "Appearance Options"	;
+ZSHXRTC_HUD_LINFO_OPTIONS ="Level Info Module"			;
+ZSHXRTC_HUD_HPAP_OPTIONS = "HP/AP Module"				;
 
 ZSHXRTC_SHOW_TIME 	 = "Show Time"						;
 ZSHXRTC_SHOW_LINFO 	 = "Show Level Info"				;
@@ -18,3 +20,4 @@ ZSHXRTC_ALPHA		 = "Alpha"							;
 ZSHXRTC_BOX0_TEXTURE = "Box0 Texture"					;
 ZSHXRTC_BOX1_TEXTURE = "Main Texture"					;
 ZSHXRTC_BOX2_TEXTURE = "Secondary Texture"				;
+ZSHXTRC_MODULE_STYLE = "Module Style"					; 
